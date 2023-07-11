@@ -23,10 +23,10 @@ function App() {
           <Route exact path='/login-staff' element={<LoginsStaff/>} />
           <Route exact path='/inventory' element={<Inventory/>} />
           <Route exact path='/sales' element={<Sales/>} />
-          <Route exact path='/products-list' element={<ProductsList/>} />
+          <Route exact path='/products' element={<ProductsList/>} />
           <Route exact path='/providers' element={<Providers/>} />
           <Route exact path='/staff' element={<Staff/>} />
-          <Route exact path='/Supplies' element={<Supplies/>} />
+          <Route exact path='/supplies' element={<Supplies/>} />
           <Route exact path='*' element={<NotFound/>} />
         </Routes>
       </Layout>
