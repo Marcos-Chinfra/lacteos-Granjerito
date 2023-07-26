@@ -7,11 +7,15 @@ export default {
         "bg-login": "#579B0F",
         "form-login": "#F6FCF1",
         "button": "#F2F3F4",
-        "side": "#466233",
-        "side-text": "#ddc7b3"
+        "created": "#11aaff",
+        "side": "#206c83",
+        // "side-text": "#ddc7b3",
+        "liner-color": "#fd8a2d",
+        "text-color": "#a9b2e1"
       },
       maxWidth:{
-        custom: '280px'
+        custom: '280px',
+        button: '230px'
       }
     },
   },

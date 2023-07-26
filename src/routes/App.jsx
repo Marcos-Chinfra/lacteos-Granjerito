@@ -9,7 +9,7 @@ import ProductsList from '../containers/ProductsList';
 import Providers from '../containers/Providers';
 import Sales from '../containers/Sales';
 import Staff from '../containers/Staff';
-import Supplies from '../containers/Supplies';
+import SingUp from '../pages/SingUp';
 import '../style/index.css';
 
 
@@ -26,7 +26,7 @@ function App() {
           <Route exact path='/products' element={<ProductsList/>} />
           <Route exact path='/providers' element={<Providers/>} />
           <Route exact path='/staff' element={<Staff/>} />
-          <Route exact path='/supplies' element={<Supplies/>} />
+          <Route exact path='/sing-up' element={<SingUp/>} />
           <Route exact path='*' element={<NotFound/>} />
         </Routes>
       </Layout>
