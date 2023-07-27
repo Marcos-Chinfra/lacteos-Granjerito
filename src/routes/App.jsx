@@ -1,14 +1,14 @@
 import React from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import Layout from '../components/Layout';
-import NotFound from '../containers/NotFound';
-import Inventory from '../containers/Inventory';
-import Login from '../containers/Login';
-import LoginsStaff from '../containers/LoginsStaff';
-import ProductsList from '../containers/ProductsList';
-import Providers from '../containers/Providers';
-import Sales from '../containers/Sales';
-import Staff from '../containers/Staff';
+import Layout from '../containers/Layout';
+import NotFound from '../pages/NotFound';
+import Inventory from '../pages/Inventory';
+import Login from '../pages/Login';
+import LoginsStaff from '../pages/LoginsStaff';
+import ProductsList from '../pages/ProductsList';
+import Providers from '../pages/Providers';
+import Sales from '../pages/Sales';
+import Staff from '../pages/Staff';
 import SingUp from '../pages/SingUp';
 import '../style/index.css';
 

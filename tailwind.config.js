@@ -11,11 +11,16 @@ export default {
         "side": "#206c83",
         // "side-text": "#ddc7b3",
         "liner-color": "#fd8a2d",
-        "text-color": "#a9b2e1"
+        "orange-button": "#F5B041",
+        "text-color": "#707695",
+        'Magnolia':'hsl(217, 100%, 97%)' ,
       },
       maxWidth:{
         custom: '280px',
-        button: '230px'
+        button: '160px'
+      },
+      maxHeight:{
+        form: '450px'
       }
     },
   },
