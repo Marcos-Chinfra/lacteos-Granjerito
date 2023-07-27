@@ -8,6 +8,7 @@ const SingUp = () => {
 
     const handleNextStep = (data) => {
         const validation = Object.values(data).some( item => item === '');
+        console.log(validation)
         if(!validation){
             setStep(2)
         }

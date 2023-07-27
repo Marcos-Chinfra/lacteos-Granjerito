@@ -12,12 +12,13 @@ const Step1 = ({ handleNextStep }) => {
         event.preventDefault()
         const formData = new FormData(form.current);
         const vendedor = {
-            'name': formData.get('name'),
-            'route': formData.get('route'),
-            'observations': formData.get('observations')
+            'Name': formData.get('Name'),
+            'Route': formData.get('Route'),
+            'Observations': formData.get('Observations')
         }
+        console.log(vendedor)
         handleNextStep(vendedor);
-        if(vendedor.name === ''){
+        if(vendedor.Name === ''){
             setErrorName(true)
         }
         else
@@ -25,7 +26,7 @@ const Step1 = ({ handleNextStep }) => {
             setErrorName(false)
         }
 
-        if(vendedor.route === ''){
+        if(vendedor.Route === ''){
             setErrorRoute(true)
         }
         else 
@@ -33,7 +34,7 @@ const Step1 = ({ handleNextStep }) => {
             setErrorRoute(false)
         }
 
-        if(vendedor.observations === ''){
+        if(vendedor.Observations === ''){
             setErrorObservations(true)
         }
         else 
@@ -45,14 +46,61 @@ const Step1 = ({ handleNextStep }) => {
     return (
         <>
         <form className='w-4/5 max-w-lg max-h-form bg-white flex flex-col p-5 shadow' ref={form} onSubmit={handleSubmit}>
-            <label className='py-2 text-lg mt-4 text-created' htmlFor='name'>Nombre</label>
-            <input className={`border rounded px-2 py-3 font-medium text-sm outline-orange-300 ${errorName ? 'border-red-500' : ''} `} id='name' type="text" name="name" placeholder='e.g Ruben Blades' />
 
-            <label className='py-2 text-lg mt-4 text-created' htmlFor='route'>Ruta</label>
-            <input className={`border rounded px-2 py-3 font-medium text-sm outline-orange-300 ${errorRoute ? 'border-red-500' : ''} `} id='route' type="text" name="route" placeholder='e.g Coban' />
+            <label
+                htmlFor="Name"
+                className={`relative block rounded-md border border-gray-200 shadow-sm mt-4 focus-within:border-created focus-within:ring-1 focus-within:ring-created ${errorName ? 'border-Error' : ''}`}
+            >
+                <input
+                    type="text"
+                    id="Name"
+                    className="peer border-none bg-transparent placeholder-transparent p-4 focus:border-transparent focus:outline-none focus:ring-0"
+                    placeholder="Name"
+                    name="Name"
+                />
+                <span
+                    className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
+                >
+                    Nombre
+                </span>
+            </label>
 
-            <label className='py-2 text-lg mt-4 text-created' htmlFor='observations'>Observaciones</label>
-            <input className={`border rounded px-2 py-3 font-medium text-sm outline-orange-300 ${errorObservations ? 'border-red-500' : ''} `}  id='observations' type="text" name="observations" placeholder='e.g' />
+            <label
+                htmlFor="Route"
+                className={`relative block rounded-md border border-gray-200 shadow-sm mt-4 focus-within:border-created focus-within:ring-1 focus-within:ring-created ${errorRoute ? 'border-Error' : ''}`}
+            >
+                <input
+                    type="text"
+                    id="Route"
+                    className="peer border-none bg-transparent placeholder-transparent p-4 focus:border-transparent focus:outline-none focus:ring-0"
+                    placeholder="Route"
+                    name="Route"
+                />
+                <span
+                    className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
+                >
+                    Ruta
+                </span>
+            </label>
+
+
+            <label
+                htmlFor="Observations"
+                className={`relative block rounded-md border border-gray-200 shadow-sm mt-4 focus-within:border-created focus-within:ring-1 focus-within:ring-created ${errorObservations ? 'border-Error' : ''}`}
+            >
+                <input
+                    type="text"
+                    id="Observations"
+                    className="peer border-none bg-transparent placeholder-transparent p-4 focus:border-transparent focus:outline-none focus:ring-0"
+                    placeholder="Observations"
+                    name="Observations"
+                />
+                <span
+                    className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-xs text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs"
+                >
+                    Observaciones
+                </span>
+            </label>
 
             <button type='submit' className='rounded bg-orange-button text-white border p-4 mt-6 hover:bg-orange-50 hover:border-created hover:text-text-color'>Continuar</button>
         </form>
