@@ -23,7 +23,7 @@ const SingUp = () => {
 
 
     return (
-        <div className='w-screen lg:h-full h-4/5 flex flex-col p-10 bg-Magnolia justify-center items-center relative '>
+        <div className='w-screen lg:h-full h-4/5 flex flex-col p-10 bg-Magnolia justify-center items-center relative'>
             {step === 1 && <Step1 handleNextStep={handleNextStep} API={API} setPostId={setPostId}/>}
             {step === 2 && <Step2 handlePrevStep={handlePrevStep} API={API} postId={postId}/>}
         </div>

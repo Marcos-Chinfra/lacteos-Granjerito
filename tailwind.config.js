@@ -14,7 +14,9 @@ export default {
         "orange-button": "#F5B041",
         "text-color": "#707695",
         'Magnolia':'hsl(217, 100%, 97%)' ,
-        "Error": '#F6630A '
+        "Error": '#F6630A ',
+        'return': '#F0E6D5',
+        "strong-blue": '#015db0'
       },
       maxWidth:{
         custom: '280px',
