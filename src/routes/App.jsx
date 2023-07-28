@@ -10,6 +10,7 @@ import Providers from '../pages/Providers';
 import Sales from '../pages/Sales';
 import Staff from '../pages/Staff';
 import SingUp from '../pages/SingUp';
+import UpdateSale from '../pages/UpdateSale';
 import '../style/index.css';
 
 
@@ -27,6 +28,7 @@ function App() {
           <Route exact path='/providers' element={<Providers/>} />
           <Route exact path='/staff' element={<Staff/>} />
           <Route exact path='/sing-up' element={<SingUp/>} />
+          <Route exact path='/update-sale' element={<UpdateSale/>} />
           <Route exact path='*' element={<NotFound/>} />
         </Routes>
       </Layout>

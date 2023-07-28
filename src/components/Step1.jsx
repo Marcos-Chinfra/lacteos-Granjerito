@@ -2,39 +2,60 @@ import React, {useState ,useRef, useEffect} from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const Step1 = ({ handleNextStep, API }) => {
+const Step1 = ({ handleNextStep, API, setPostId }) => {
 
     const [errorName, setErrorName] = useState(false);
     const [errorRoute, setErrorRoute] = useState(false);
     const [errorLastName, setErrorLastName] = useState(false);
     const [post, setPost] = useState(null);
-    const [get, setGet] = useState(null)
+    const [getStaff, setGetStaff] = useState(null);
+    const [getRouter, setGetRouter] = useState(null);
     const form = useRef(null);
 
     useEffect(() => {
         axios.get(`${API}/staff`)
-            .then((response) => {setGet(response.data)});
-    }, [])
+            .then((response) => {setGetStaff(response.data)});
+
+        axios.get(`${API}/routes`)
+            .then((response) => {setGetRouter(response.data)});
+    }, []);
+
 
 
     const searchSeller = (name, lastName, arr) => {
-        let user =  arr.find(seller => (seller.name == name && seller.lastName == lastName));
-        console.log(user.id)
+            let user =  arr.find(seller => (seller.name == name && seller.lastName == lastName));
+            return user.id
     }
 
-    const createSales = (name, router, observations) => {
-        axios
-            .post(API, {
-                "staffId": name,
-                "routedId": router,
-                "observations": observations,
-                "total": 0
+    const searchRoute = (name, arr) => {
+        let router =  arr.find(seller => seller.name == name );
+        return router.id
+    }
+
+    const createSales = (name, router, lastName) => {
+        let staff = searchSeller(name, lastName, getStaff);
+        let root =  searchRoute(router, getRouter);
+
+        axios.post(`${API}/sales`, {
+                staffId: staff,
+                routeId: root,
+                total: 0
             })
             .then((response) => {
-                setPost(response.data);
+                setPost(response);
+                setPostId(response.data);
             })
-            .catch((err) => {
-                console.error(err.message)
+            .catch((error) => {
+                if (error.response) {
+                    // Si la respuesta del servidor contiene datos, puedes acceder a ellos con error.response.data.
+                    console.log("Error response data:", error.response.data);
+                } else if (error.request) {
+                    // Si la solicitud se hizo pero no se recibió respuesta (por ejemplo, error de red), puedes acceder a ello con error.request.
+                    console.log("Error request:", error.request);
+                } else {
+                    // Si ocurrió un error durante la configuración de la solicitud, puedes acceder a él con error.message.
+                    console.log("Error message:", error.message);
+                }
             })
     }
 
@@ -71,7 +92,8 @@ const Step1 = ({ handleNextStep, API }) => {
         {
             setErrorLastName(false)
         }
-        searchSeller(vendedor.Name, vendedor.LastName, get)
+        createSales(vendedor.Name, vendedor.Route, vendedor.LastName);
+        console.log(post);
     }
 
     return (
