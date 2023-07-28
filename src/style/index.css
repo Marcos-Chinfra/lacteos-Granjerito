@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.burger-menu{
+    top: 35px;
+    left: -38px;
+    z-index: 999;
+}

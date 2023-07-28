@@ -98,15 +98,15 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
                 <i className="fa-solid fa-arrow-left text-side hover:text-liner-color "></i>
             </button>
             <form 
-                className=' flex flex-col justify-start items-center' 
+                className=' flex flex-col w-full justify-start items-center' 
                 ref={form} 
                 onSubmit={handleSubmit}
             >
                 <section 
-                    className='flex w-full'
+                    className='flex flex-col lg:flex-row w-full'
                 >
                     <div 
-                        className='flex flex-col w-3/5 px-3'
+                        className='flex flex-col w-full lg:w-3/5 px-3'
                     >
                         <label 
                             className='py-2 text-lg mt-4 text-created  font-medium' 
@@ -126,7 +126,7 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
                     </div>
 
                     <div 
-                        className='flex flex-col w-2/5 px-3'
+                        className='flex flex-col w-full lg:w-2/5 px-3'
                     >
                         <label 
                             className='py-2 text-lg mt-4 text-created font-medium' 

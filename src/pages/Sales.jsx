@@ -21,7 +21,7 @@ const Sales = () => {
 
     return (
         <div 
-            className='w-screen h-4/5 flex p-10 items-start'
+            className='w-screen h-4/5 flex p-5 mt-6 lg:mt-0 lg:p-10 items-start'
         >
             <section 
                 className='w-full flex flex-col lg:flex-row  items-center gap-7'
