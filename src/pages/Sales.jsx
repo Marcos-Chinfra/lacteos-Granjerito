@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import axios from "axios";
+import AppContext from '../context/AppContext';
 import { Link } from 'react-router-dom';
 
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const Sales = () => {
-
+    const { setSendId } = useContext(AppContext);
     const [getSales, setGetSales] = useState([]);
 
     const searchSales = (arr) => {
@@ -64,6 +65,7 @@ const Sales = () => {
                                 >
                                     <Link 
                                         to="/update-sale"
+                                        onClick={() => setSendId(item.id)}  
                                     >
                                         Actualizar
                                     </Link>

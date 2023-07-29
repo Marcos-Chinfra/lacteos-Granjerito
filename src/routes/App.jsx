@@ -1,5 +1,7 @@
 import React from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+import AppContext from '../context/AppContext';
+import useSalesHook from '../hooks/useSalesHook';
 import Layout from '../containers/Layout';
 import NotFound from '../pages/NotFound';
 import Inventory from '../pages/Inventory';
@@ -15,24 +17,26 @@ import '../style/index.css';
 
 
 function App() {
-
+  const salesHook = useSalesHook();
   return (
-    <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route exact path='/' element={<Login/>} />
-          <Route exact path='/login-staff' element={<LoginsStaff/>} />
-          <Route exact path='/inventory' element={<Inventory/>} />
-          <Route exact path='/sales' element={<Sales/>} />
-          <Route exact path='/products' element={<ProductsList/>} />
-          <Route exact path='/providers' element={<Providers/>} />
-          <Route exact path='/staff' element={<Staff/>} />
-          <Route exact path='/sing-up' element={<SingUp/>} />
-          <Route exact path='/update-sale' element={<UpdateSale/>} />
-          <Route exact path='*' element={<NotFound/>} />
-        </Routes>
-      </Layout>
-    </BrowserRouter>
+    <AppContext.Provider value={salesHook}>
+      <BrowserRouter>
+        <Layout>
+          <Routes>
+            <Route exact path='/' element={<Login/>} />
+            <Route exact path='/login-staff' element={<LoginsStaff/>} />
+            <Route exact path='/inventory' element={<Inventory/>} />
+            <Route exact path='/sales' element={<Sales/>} />
+            <Route exact path='/products' element={<ProductsList/>} />
+            <Route exact path='/providers' element={<Providers/>} />
+            <Route exact path='/staff' element={<Staff/>} />
+            <Route exact path='/sing-up' element={<SingUp/>} />
+            <Route exact path='/update-sale' element={<UpdateSale/>} />
+            <Route exact path='*' element={<NotFound/>} />
+          </Routes>
+        </Layout>
+        </BrowserRouter>
+    </AppContext.Provider>
   )
 }
 

@@ -16,7 +16,7 @@ const Side = () => {
 
             <section className='flex md:hidden relative'>
                 <i 
-                    class="fa-solid fa-bars text-2xl"
+                    className="fa-solid fa-bars text-2xl"
                     onClick={()=> {setBurgerMenu(!burgerMenu)}}
                 ></i>
                 {burgerMenu && 
