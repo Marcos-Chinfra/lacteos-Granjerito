@@ -11,6 +11,7 @@ const UpdateSale = () => {
     const { sendId } = useContext(AppContext);
     const [step, setStep] = useState(1);
 
+
     const handleNextStep = (e) => {
         e.preventDefault();
         setStep((prevStep)=> prevStep + 1);
@@ -23,10 +24,10 @@ const UpdateSale = () => {
     console.log(sendId)
 
     return (
-        <div className='w-screen lg:h-full h-4/5 flex flex-col p-5 lg:p-10 bg-Magnolia lg:justify-center items-center relative overflow-y-auto'>
+        <div className={`w-screen lg:h-full h-4/5 flex flex-col p-5 lg:p-10 bg-Magnolia lg:justify-center items-center relative overflow-y-auto view-form-update `}>
             {step === 1 && <UnSoldProducts handleNextStep ={handleNextStep} API={API} Id={sendId}/>}
             {step === 2 && <ReturnedProducts handlePrevStep ={handlePrevStep} handleNextStep = {handleNextStep} API={API} Id={sendId} />}
-            {step === 3 && <SoldProducts handlePrevStep={handlePrevStep} API={API} Id={sendId} />}
+            {step === 3 && <SoldProducts handlePrevStep={handlePrevStep} API={API} Id={sendId}  />}
         </div>
     );
 }

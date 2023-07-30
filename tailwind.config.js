@@ -16,11 +16,14 @@ export default {
         'Magnolia':'hsl(217, 100%, 97%)' ,
         "Error": '#F6630A ',
         'return': '#F0E6D5',
-        "strong-blue": '#015db0'
+        "strong-blue": '#015db0',
+        // "orange-title": '#ca6e23'
+        "orange-title": '#f08229'
       },
       maxWidth:{
         custom: '280px',
-        button: '160px'
+        button: '160px',
+        updateForm:"307px"
       },
       maxHeight:{
         form: '450px'

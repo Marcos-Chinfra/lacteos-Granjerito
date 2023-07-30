@@ -8,14 +8,15 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false); 
     const [getProduct, setGetProduct] = useState(null);
+
     const form = useRef(null);
 
-    useEffect(() => {
-        axios.get(`${API}/products`)
-            .then((response) => {
-                setGetProduct(response.data);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get(`${API}/products}`)
+    //         .then((response) => {
+    //             setGetProduct(response.data);
+    //         });
+    // }, []);
 
     const newRecord = (product, amount) => {
         let producto = searchProduct(product, getProduct)
