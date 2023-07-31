@@ -1,13 +1,14 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import axios from "axios";
 import FormUpdate from './FormUpdate';
+import FormUpdateChanges from './FormUpdateChanges';
 
 const SoldProducts = ({ handlePrevStep, API, Id }) => {
-    const [post, setPost] = useState(null);
     const [total, setTotal] = useState(null)
     const [getProduct, setGetProduct] = useState(null);
     const [itemId, setItemId] = useState(null);
-    const [update, setUpdate] = useState(false)
+    const [update, setUpdate] = useState(false);
+    const [updateChanges, setUpdateChanges] = useState(null)
 
     useEffect(() => {
         axios.get(`${API}/sales/${Id}`)
@@ -15,6 +16,20 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
                 setGetProduct(response.data);
             });
     }, []);
+
+    useEffect(() => {
+        axios.get(`${API}/sales/${Id}`)
+            .then((response) => {
+                setGetProduct(response.data);
+            });
+    }, [update]);
+
+    useEffect(() => {
+        axios.get(`${API}/sales/${Id}`)
+            .then((response) => {
+                setGetProduct(response.data);
+            });
+    }, [updateChanges]);
 
 
     useEffect(() => {
@@ -36,6 +51,11 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
         setUpdate(!update)
     }
 
+    const handleUpdateChanges = (id) => {
+        setItemId(id)
+        setUpdateChanges(!update)
+    }
+
 
     return (
         <section className='flex flex-col w-full max-w-3xl pt-16 sm:mt-0 '>
@@ -53,7 +73,7 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
                     <h2 className='text-2xl font-base text-strong-blue' >Regresos</h2>
                     {update
                     ?
-                        <FormUpdate itemId={itemId} API={API}/>   
+                        <FormUpdate itemId={itemId} API={API} setUpdate={setUpdate}/>   
                     :                   
                     <table className="w-full mt-2 divide-y-2 divide-gray-200 bg-white text-sm">
                         <thead className="text-center ">
@@ -87,7 +107,7 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
                                             className="whitespace-nowrap px-4 py-2"
                                         >
                                             <button
-                                                href="#"
+                                                type='button'
                                                 className="inline-block rounded border bg-created border-created px-4 py-2 text-xs font-medium text-white hover:text-side hover:border-orange-300 hover:bg-white"
                                                 onClick={() => handleUpdate(item.id)}
                                             >
@@ -103,8 +123,12 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
                 </div>
 
                 <div className='w-4/5 md:w-2/5  flex flex-col items-center'>
-                    <h2 className='text-2xl font-base text-strong-blue'>Cambios</h2>
-                    <table className="w-full mt-2 divide-y-2 divide-gray-200 bg-white text-sm">
+                    <h2 className='text-2xl font-base text-strong-blue'>Cambios</h2> 
+                    {updateChanges
+                    ?
+                        <FormUpdateChanges itemId={itemId} API={API} setUpdateChanges={setUpdateChanges} />   
+                    :   
+                        <table className="w-full mt-2 divide-y-2 divide-gray-200 bg-white text-sm">
                         <thead className="text-center">
                             <tr>
                                 <th className="whitespace-nowrap px-4 py-2 text-base font-semibold text-orange-title">
@@ -134,18 +158,20 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
                                         <td     
                                             className="whitespace-nowrap px-4 py-2"
                                         >
-                                            <a
-                                                href="#"
-                                                className="inline-block rounded border bg-created border-created px-4 py-2 text-xs font-medium text-white hover:text-side hover:border-orange-300 hover:bg-white "
+                                            <button
+                                                type='button'
+                                                className="inline-block rounded border bg-created border-created px-4 py-2 text-xs font-medium text-white hover:text-side hover:border-orange-300 hover:bg-white"
+                                                onClick={() => handleUpdateChanges(item.id)}
                                             >
                                                 View
-                                            </a>
+                                            </button>
                                         </td>
                                     </tr>
                                 ))
                             }
                         </tbody>
-                    </table>
+                        </table>
+                    }
                 </div>
             </article>
 

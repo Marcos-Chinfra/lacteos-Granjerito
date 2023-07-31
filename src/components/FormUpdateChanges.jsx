@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext, useRef} from 'react'; 
 import axios from 'axios';
 
-const FormUpdate = ({ itemId, API, setUpdate }) => {
+const FormUpdateChanges = ({ itemId, API, setUpdateChanges}) => {
 
     const [getRecord, setGetRecord] = useState(null);
     const [amount, setAmount] = useState(null);
@@ -9,21 +9,21 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
     const form = useRef(null);
 
     useEffect(() => {
-        axios.get(`${API}/unsold-products/${itemId}`)
+        axios.get(`${API}/returned-products/${itemId}`)
             .then((response) => {
                 setGetRecord(response.data);
             });
     }, []);
 
     useEffect(() => {
-        axios.get(`${API}/unsold-products/${itemId}`)
+        axios.get(`${API}/returned-products/${itemId}`)
             .then((response) => {
                 setGetRecord(response.data);
             });
     }, [updateData]);
 
     const updateItem = (amount) => {
-        axios.patch(`${API}/unsold-products/${itemId}`, {
+        axios.patch(`${API}/returned-products/${itemId}`, {
             amount: amount
         })
         .then((response)=>{setUpdateData(response.data)})
@@ -39,10 +39,10 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
     };
 
     const deleteItem = () => {
-        axios.delete(`${API}/unsold-products/${itemId}`)
+        axios.delete(`${API}/returned-products/${itemId}`)
         .then(()=>{
             alert("Product deleted!");
-            setUpdate(false)
+            setUpdateChanges(false)
         })
     };
 
@@ -55,7 +55,7 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
         updateItem(record.update);
         setAmount(!amount)
     };
-    
+
     return (
         <>
         {getRecord &&
@@ -77,13 +77,13 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
                 <section className='absolute top-3 left-6 text-side'>
                     <button 
                         className='hidden sm:inline-block text-base font-semibold'
-                        onClick={()=>setUpdate(null)}
+                        onClick={()=>setUpdateChanges(null)}
                     >
                         Atrás
                     </button>
                     <button 
                         className='sm:hidden text-lg font-semibold'
-                        onClick={()=>setUpdate(null)}
+                        onClick={()=>setUpdateChanges(null)}
                     >
                         <i className="fa-solid fa-reply"></i>
                     </button>
@@ -166,4 +166,4 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
     );
 }
 
-export default FormUpdate;
+export default FormUpdateChanges;

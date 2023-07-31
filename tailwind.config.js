@@ -5,7 +5,6 @@ export default {
     extend: {
       colors:{
         "bg-login": "#579B0F",
-        "form-login": "#F6FCF1",
         "button": "#F2F3F4",
         "created": "#11aaff",
         "side": "#206c83",
@@ -17,8 +16,8 @@ export default {
         "Error": '#F6630A ',
         'return': '#F0E6D5',
         "strong-blue": '#015db0',
-        // "orange-title": '#ca6e23'
-        "orange-title": '#f08229'
+        "orange-title": '#f08229',
+        "light-blue": "#E3F2FD",
       },
       maxWidth:{
         custom: '280px',
