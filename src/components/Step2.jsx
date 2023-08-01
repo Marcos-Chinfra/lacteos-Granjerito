@@ -1,9 +1,10 @@
-import React, {useState ,useRef, useEffect} from 'react';
+import React, {useState ,useRef, useEffect, useContext} from 'react';
 import axios from 'axios';
+import AppContext from '../context/AppContext';
 import { Link } from 'react-router-dom';
 
 const Step2 = ({ handlePrevStep, API, postId }) => {
-
+    const { errorAlert } = useContext(AppContext)
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorQuantity, setErrorQuantity] = useState(false);
     const [getProduct, setGetProduct] = useState(null);
@@ -27,11 +28,13 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
         }
     }, [post]);
 
-    console.log(listProducts);
-
     const searchProduct = (name, arr) => {
         let product =  arr.find(item => item.name == name);
-        return product.id
+        if(product){
+            return product.id
+        }else{
+            errorAlert('El producto no se puede encontrar en la base de datos');
+        }
     }
 
     const newRecord = (product, quantity) => {

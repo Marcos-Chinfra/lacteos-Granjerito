@@ -17,6 +17,7 @@ const useSalesHook = () => {
             }
         }catch(error){
             console.error("Error al buscar el producto: " , error);
+            errorAlert('El producto no se puede encontrar en la base de datos');
             return null
         }
     };

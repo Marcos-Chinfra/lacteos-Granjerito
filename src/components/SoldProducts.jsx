@@ -44,15 +44,6 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
         }
     }, [totalData]);
 
-    // useEffect(()=>{
-    //     if(totalData){
-    //         if(totalData.status !== 201){
-    //             errorAlert('La venta no se puedo actualizar')
-    //         }
-    //     }
-    // },[totalData]);
-
-
     useEffect(() => {
         if(getProduct){
             cierre()
