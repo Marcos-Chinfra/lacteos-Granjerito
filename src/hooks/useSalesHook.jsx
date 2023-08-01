@@ -6,7 +6,7 @@ const useSalesHook = () => {
 
     const searchProduct = (name, arr) => {
         try{
-            let product =  arr.find(item => item.name == name);
+            let product =  arr.find(item => item.name === name);
             if(product){
                 return product.id
             }else{

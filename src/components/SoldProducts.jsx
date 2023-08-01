@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import axios from "axios";
+import swal from 'sweetalert';
 import FormUpdate from './FormUpdate';
 import FormUpdateChanges from './FormUpdateChanges';
 
@@ -8,7 +9,8 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
     const [getProduct, setGetProduct] = useState(null);
     const [itemId, setItemId] = useState(null);
     const [update, setUpdate] = useState(false);
-    const [updateChanges, setUpdateChanges] = useState(null)
+    const [updateChanges, setUpdateChanges] = useState(null);
+    const [totalData ,setTotalData] = useState(null);
 
     useEffect(() => {
         axios.get(`${API}/sales/${Id}`)
@@ -31,6 +33,32 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
             });
     }, [updateChanges]);
 
+    useEffect(() => {
+        if(totalData){
+            if(totalData.status === 201){
+                swal({
+                    title: "Todo bien!",
+                    text: "Venta guardado con éxito!",
+                    icon: "success",
+                    button: "Listo",
+                });
+            }
+        }
+    }, [totalData]);
+
+    useEffect(()=>{
+        if(totalData){
+            if(totalData.status !== 201){
+                swal({
+                    title: "Algo salio mal!",
+                    text: "Venta no guardada. Intente otra vez",
+                    icon: "error",
+                    button: "Ok",
+                });
+            }
+        }
+    },[totalData]);
+
 
     useEffect(() => {
         if(getProduct){
@@ -43,7 +71,7 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
         let sum = ganancia.reduce((prev, item) => {
             return prev + item
         })
-        setTotal(sum)
+        setTotal(Number(sum))
     };
 
     const handleUpdate = (id) => {
@@ -55,6 +83,25 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
         setItemId(id)
         setUpdateChanges(!update)
     }
+
+    const updateTotal = () => {
+        axios.patch(`${API}/sales/${Id}`, {
+            total: total
+        })
+        .then((response)=>{setTotalData(response)})
+        .catch((error) => {
+            if (error.response) {
+                console.log("Error response data:", error.response.data);
+                setTotalData(error)
+            } else if (error.request) {
+                console.log("Error request:", error.request);
+                setTotalData(error)
+            } else {
+                console.log("Error message:", error.message);
+                setTotalData(error)
+            }
+        })
+    };
 
 
     return (
@@ -225,7 +272,10 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
                         <h1 className='text-4xl'>
                             {`Total: ${total}`}
                         </h1>
-                        <button className=' rounded bg-white border px-4 py-3 border-orange-300 text-side hover:text-white hover:bg-created hover:border-created'>
+                        <button 
+                            className=' rounded bg-white border px-4 py-3 border-orange-300 text-side hover:text-white hover:bg-created hover:border-created'
+                            onClick={() => {updateTotal()}}
+                        >
                             Guardar
                         </button>
                     </article>

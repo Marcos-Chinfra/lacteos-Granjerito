@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import AppContext from '../context/AppContext';
+import swal from 'sweetalert';
 import axios from "axios";
 
 const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
@@ -8,15 +9,45 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false); 
     const [getProduct, setGetProduct] = useState(null);
+    const [formInput, setFormInput] = useState({
+        product: '',
+        amount: ''
+    });
 
     const form = useRef(null);
 
-    // useEffect(() => {
-    //     axios.get(`${API}/products}`)
-    //         .then((response) => {
-    //             setGetProduct(response.data);
-    //         });
-    // }, []);
+    useEffect(() => {
+        axios.get(`${API}/products`)
+            .then((response) => {
+                setGetProduct(response.data);
+            });
+    }, []);
+
+    useEffect(()=>{
+        if(post){
+            if(post.status === 201){
+                swal({
+                    title: "Todo bien!",
+                    text: "Producto guardado!",
+                    icon: "success",
+                    button: "Listo",
+                });
+            }
+        }
+    },[post]);
+
+    useEffect(()=>{
+        if(post){
+            if(post.status !== 201){
+                swal({
+                    title: "Algo salio mal!",
+                    text: "Producto NO guardado, intente de nuevo",
+                    icon: "error",
+                    button: "Ok",
+                });
+            }
+        }
+    },[post]);
 
     const newRecord = (product, amount) => {
         let producto = searchProduct(product, getProduct)
@@ -26,17 +57,28 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
             productId: producto,
             amount: amount
         })
-        .then((response)=>{setPost(response.data)})
+        .then((response)=>{setPost(response)})
         .catch((error) => {
             if (error.response) {
                 console.log("Error response data:", error.response.data);
+                setPost(error);
             } else if (error.request) {
                 console.log("Error request:", error.request);
+                setPost(error);
             } else {
                 console.log("Error message:", error.message);
+                setPost(error);
             }
         })
     };
+
+    const handleInput = (e) => {
+        const { name, value } = e.target;
+        setFormInput({
+        ...formInput,
+        [name]: value,
+        });
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -57,7 +99,12 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
             setErrorProduct(false);
             setErrorAmount(false);        
             newRecord(record.product, record.amount);
+            setFormInput({
+                product: '',
+                amount: ''
+            })
         }
+        console.log(record)
     };
 
     return (
@@ -94,6 +141,8 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
                             placeholder="Ingrese el producto"
                             name='product'
                             id='product'
+                            value={formInput.product}
+                            onChange={handleInput}
                         />
                     </div>
 
@@ -105,6 +154,8 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
                             placeholder="Ingrese la cantidad"
                             name='amount'
                             id='amount'
+                            value={formInput.amount}
+                            onChange={handleInput}
                         />
                     </div>
 

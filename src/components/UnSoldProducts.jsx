@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import AppContext from '../context/AppContext';
 import axios from "axios";
+import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 
 const UnSoldProducts = ({ handleNextStep, API, Id }) => {
@@ -9,6 +10,10 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false); 
     const [getProduct, setGetProduct] = useState(null);
+    const [formInput, setFormInput] = useState({
+        product: '',
+        amount: ''
+    });
     const form = useRef(null);
 
     useEffect(() => {
@@ -18,6 +23,32 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
             });
     }, []);
 
+    useEffect(()=>{
+        if(post){
+            if(post.status === 201){
+                swal({
+                    title: "Todo bien!",
+                    text: "Producto guardado!",
+                    icon: "success",
+                    button: "Listo",
+                });
+            }
+        }
+    },[post]);
+
+    useEffect(()=>{
+        if(post){
+            if(post.status !== 201){
+                swal({
+                    title: "Algo salio mal!",
+                    text: "Producto NO guardado, intente de nuevo",
+                    icon: "error",
+                    button: "Ok",
+                });
+            }
+        }
+    },[post]);
+
     const newRecord = (product, amount) => {
         let producto = searchProduct(product, getProduct)
 
@@ -26,16 +57,27 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
             productId: producto,
             amount: amount
         })
-        .then((response)=>{setPost(response.data)})
+        .then((response)=>{setPost(response)})
         .catch((error) => {
             if (error.response) {
                 console.log("Error response data:", error.response.data);
+                setPost(error);
             } else if (error.request) {
                 console.log("Error request:", error.request);
+                setPost(error);
             } else {
                 console.log("Error message:", error.message);
+                setPost(error);
             }
         })
+    }
+
+    const handleInput = (e) => {
+        const { name, value } = e.target;
+        setFormInput({
+        ...formInput,
+        [name]: value,
+        });
     }
 
     const handleSubmit = (event) => {
@@ -57,6 +99,10 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
             setErrorProduct(false);
             setErrorAmount(false);        
             newRecord(record.product, record.amount);
+            setFormInput({
+                product: '',
+                amount: ''
+            })
         }
     }
 
@@ -68,7 +114,7 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
                 </h1>
 
                 <p className="mx-auto mt-4 max-w-md text-center text-gray-500">
-                Ingrese el productos y la cantidad del producto que se regreso.
+                    Ingrese el productos y la cantidad del producto que se regreso.
                 </p>
 
                 <form
@@ -86,22 +132,21 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
                             placeholder="Ingrese el producto"
                             name='product'
                             id='product'
+                            value={formInput.product}
+                            onChange={handleInput}
                         />
                     </div>
 
                     <div>
-                        <label 
-                            htmlFor="amount" 
-                            className="sr-only"
-                        >
-                            Cantidad
-                        </label>
+                        <label htmlFor="amount" className="sr-only">Cantidad</label>
                         <input
                             type="number"
                             className={`w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-md outline-created ${errorAmount ? 'placeholder-Error' : ''}`}
                             placeholder="Ingrese la cantidad"
                             name='amount'
                             id='amount'
+                            value={formInput.amount}
+                            onChange={handleInput}
                         />
                     </div>
 
