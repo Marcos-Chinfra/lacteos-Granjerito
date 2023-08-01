@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useContext, useRef} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import axios from "axios";
-import swal from 'sweetalert';
+import AppContext from '../context/AppContext';
 import FormUpdate from './FormUpdate';
 import FormUpdateChanges from './FormUpdateChanges';
 
 const SoldProducts = ({ handlePrevStep, API, Id }) => {
+    const { saveAlert, errorAlert } = useContext(AppContext);
     const [total, setTotal] = useState(null)
     const [getProduct, setGetProduct] = useState(null);
     const [itemId, setItemId] = useState(null);
@@ -36,28 +37,20 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
     useEffect(() => {
         if(totalData){
             if(totalData.status === 201){
-                swal({
-                    title: "Todo bien!",
-                    text: "Venta guardado con éxito!",
-                    icon: "success",
-                    button: "Listo",
-                });
+                saveAlert('sales', 'Venta guardada con éxito', 'Todo bien!!', 'ventas')
+            }else if(totalData.status !== 201){
+                errorAlert('La venta no se puedo actualizar');
             }
         }
     }, [totalData]);
 
-    useEffect(()=>{
-        if(totalData){
-            if(totalData.status !== 201){
-                swal({
-                    title: "Algo salio mal!",
-                    text: "Venta no guardada. Intente otra vez",
-                    icon: "error",
-                    button: "Ok",
-                });
-            }
-        }
-    },[totalData]);
+    // useEffect(()=>{
+    //     if(totalData){
+    //         if(totalData.status !== 201){
+    //             errorAlert('La venta no se puedo actualizar')
+    //         }
+    //     }
+    // },[totalData]);
 
 
     useEffect(() => {

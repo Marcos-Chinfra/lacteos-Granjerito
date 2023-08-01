@@ -1,11 +1,10 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import AppContext from '../context/AppContext';
 import axios from "axios";
-import swal from 'sweetalert';
 import { Link } from 'react-router-dom';
 
 const UnSoldProducts = ({ handleNextStep, API, Id }) => {
-    const { searchProduct } = useContext(AppContext);
+    const { searchProduct, successAlert, errorAlert } = useContext(AppContext);
     const [post, setPost] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false); 
@@ -26,28 +25,13 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
     useEffect(()=>{
         if(post){
             if(post.status === 201){
-                swal({
-                    title: "Todo bien!",
-                    text: "Producto guardado!",
-                    icon: "success",
-                    button: "Listo",
-                });
+                successAlert("Todo bien!", "Producto guardado!");
+            } else if(post.status !== 201){
+                errorAlert('Producto NO guardado, intente de nuevo');
             }
         }
     },[post]);
 
-    useEffect(()=>{
-        if(post){
-            if(post.status !== 201){
-                swal({
-                    title: "Algo salio mal!",
-                    text: "Producto NO guardado, intente de nuevo",
-                    icon: "error",
-                    button: "Ok",
-                });
-            }
-        }
-    },[post]);
 
     const newRecord = (product, amount) => {
         let producto = searchProduct(product, getProduct)

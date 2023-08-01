@@ -1,9 +1,10 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import axios from 'axios';
+import AppContext from '../context/AppContext';
 
 
 const FormUpdate = ({ itemId, API, setUpdate }) => {
-
+    const { successAlert, errorAlert, alertDelete } = useContext(AppContext);
     const [getRecord, setGetRecord] = useState(null);
     const [amount, setAmount] = useState(null);
     const [updateData, setUpdateData] = useState(null)
@@ -23,11 +24,23 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
             });
     }, [updateData]);
 
+    useEffect(()=>{
+        if(updateData){
+            if(updateData.status === 200){
+                successAlert("Todo bien!", "Cantidad actualizada!");
+            }else if(updateData.status !== 200){
+                errorAlert('No se ha podido actualizar la cantidad');
+            }
+        }
+    },[updateData]);
+
+    console.log(updateData);
+
     const updateItem = (amount) => {
         axios.patch(`${API}/unsold-products/${itemId}`, {
             amount: amount
         })
-        .then((response)=>{setUpdateData(response.data)})
+        .then((response)=>{setUpdateData(response)})
         .catch((error) => {
             if (error.response) {
                 console.log("Error response data:", error.response.data);
@@ -42,7 +55,6 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
     const deleteItem = () => {
         axios.delete(`${API}/unsold-products/${itemId}`)
         .then(()=>{
-            alert("Product deleted!");
             setUpdate(false)
         })
     };
@@ -64,13 +76,13 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
                 <section className='absolute top-3 right-6 text-Error'>
                     <button 
                         className='hidden sm:inline-block text-base font-semibold'
-                        onClick={() => deleteItem()}
+                        onClick={() => alertDelete(deleteItem)}
                     >
                         Eliminar
                     </button>
                     <button 
                         className='sm:hidden text-lg font-semibold'
-                        onClick={() => deleteItem()}
+                        onClick={() => alertDelete(deleteItem)}
                     >
                         <i className="fa-regular fa-trash-can"></i>
                     </button>

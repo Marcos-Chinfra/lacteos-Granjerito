@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const Sales = () => {
-    const { setSendId } = useContext(AppContext);
+    const { setSendId} = useContext(AppContext);
     const [getSales, setGetSales] = useState([]);
 
     const searchSales = (arr) => {
@@ -16,8 +16,8 @@ const Sales = () => {
 
     useEffect(() => {
         axios.get(`${API}/sales`)
-            .then((response) => {searchSales(response.data)})
-            .catch((err) => console.error(err));
+        .then((response) => {searchSales(response.data)})
+        .catch((err) => console.error(err))
     }, []);
 
     return (
@@ -27,7 +27,7 @@ const Sales = () => {
             <section 
                 className='w-full flex flex-col lg:flex-row  items-center gap-7'
             >
-                <table 
+            <table 
                     className=" w-3/4 p-2 border-collapse border bg-orange-50 border-gray-200"
                 >
                     <thead>

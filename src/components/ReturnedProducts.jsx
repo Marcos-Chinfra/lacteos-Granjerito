@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useContext, useRef} from 'react';
 import AppContext from '../context/AppContext';
-import swal from 'sweetalert';
 import axios from "axios";
 
 const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
-    const { searchProduct } = useContext(AppContext);
+    
+    const { searchProduct, successAlert, errorAlert } = useContext(AppContext);
     const [post, setPost] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false); 
@@ -26,25 +26,9 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
     useEffect(()=>{
         if(post){
             if(post.status === 201){
-                swal({
-                    title: "Todo bien!",
-                    text: "Producto guardado!",
-                    icon: "success",
-                    button: "Listo",
-                });
-            }
-        }
-    },[post]);
-
-    useEffect(()=>{
-        if(post){
-            if(post.status !== 201){
-                swal({
-                    title: "Algo salio mal!",
-                    text: "Producto NO guardado, intente de nuevo",
-                    icon: "error",
-                    button: "Ok",
-                });
+                successAlert("Todo bien!", "Producto guardado!");
+            } else if(post.status !== 201){
+                errorAlert('Producto NO guardado, intente de nuevo');
             }
         }
     },[post]);
