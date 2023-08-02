@@ -22,20 +22,41 @@ const Side = () => {
                 {burgerMenu && 
                 <article className=''>
                     <ul className='bg-white text-side absolute rounded border border-side burger-menu p-2 shadow-md'>
-                        <li className='border-b border-liner-color'>
+                        <li 
+                            className='border-b border-liner-color'
+                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
+                        >
                             <Link to="/inventory">Inventario</Link>
                         </li>
-                        <li className='border-b border-liner-color mt-1'>
+                        <li 
+                            className='border-b border-liner-color mt-1'
+                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
+                        >
                             <Link to="/sales">Ventas</Link>
                         </li>
-                        <li className='border-b border-liner-color mt-1'>
+                        <li 
+                            className='border-b border-liner-color mt-1'
+                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
+                        >
                             <Link to="/providers">Proveedores</Link>
                         </li>
-                        <li className='border-b border-liner-color mt-1'>
+                        <li 
+                            className='border-b border-liner-color mt-1'
+                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
+                        >
                             <Link to="/products">Productos</Link>
                         </li>
-                        <li className='border-b border-liner-color mt-1'>
+                        <li 
+                            className='border-b border-liner-color mt-1'
+                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
+                        >
                             <Link to="/staff">Empleados</Link>
+                        </li>
+                        <li 
+                            className='border-b border-liner-color mt-1'
+                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
+                        >
+                            <Link to="/production">Producción</Link>
                         </li>
                     </ul>
                 </article>}
@@ -56,6 +77,9 @@ const Side = () => {
                 </li>
                 <li>
                     <Link to="/staff">Empleados</Link>
+                </li>
+                <li>
+                    <Link to="/production">Producción</Link>
                 </li>
             </ul>
         </nav>

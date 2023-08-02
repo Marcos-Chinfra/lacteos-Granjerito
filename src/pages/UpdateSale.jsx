@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import AppContext from '../context/AppContext';
 import UnSoldProducts from '../components//UnSoldProducts';
-import SoldProducts from '../components//SoldProducts';
+import SoldProducts from '../containers/SoldProducts';
 import ReturnedProducts from '../components/ReturnedProducts';
 
 

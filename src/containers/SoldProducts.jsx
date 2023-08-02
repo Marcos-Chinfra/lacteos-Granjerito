@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react';
 import axios from "axios";
 import AppContext from '../context/AppContext';
-import FormUpdate from './FormUpdate';
-import FormUpdateChanges from './FormUpdateChanges';
+import FormUpdate from '../components/FormUpdate';
+import FormUpdateChanges from '../components/FormUpdateChanges';
 
 const SoldProducts = ({ handlePrevStep, API, Id }) => {
     const { saveAlert, errorAlert } = useContext(AppContext);
