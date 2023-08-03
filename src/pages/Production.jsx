@@ -1,27 +1,56 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
+import AppContext from '../context/AppContext';
+import {SyncLoader}  from "react-spinners";
 import axios from 'axios';
 
-const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
+// const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const Production = () => {
+    const { sendId, API } = useContext(AppContext);
     const [get, setGet] = useState(null);
+    const [getProducts, setGetProducts] = useState(false)
+
+    // useEffect(() => {
+    //     axios.get(`${API}/shift-output`)
+    //     .then((response) => {setGet(response.data)})
+    //     .catch((err) => console.error(err))
+    // }, []);
 
     useEffect(() => {
-        axios.get(`${API}/shift-output`)
-        .then((response) => {setGet(response.data)})
-        .catch((err) => console.error(err))
+        async function getPost() {
+            const response = await axios.get(`${API}/shift-output`);
+            setGet(response.data);
+            const respuesta = await axios.get(`${API}/products/${sendId}`);
+            setGetProducts(respuesta.data)
+        }
+        getPost();
     }, []);
 
     return (
         <div className='w-screen h-4/5 flex flex-col p-10 items-start gap-10'>
             <section className='bg-Magnolia w-full px-4 py-2 rounded-md shadow flex gap-3 items-center'>
-                <main className='w-3/5 p-2'>
-                    <h1 className='text-2xl font-medium text-gray-700'>Queso fresco</h1>
+                <main className={`w-3/5 p-2 ${getProducts ? '' : 'flex justify-center items-center'}`}>
+                {getProducts
+                    ?
+                    <>
+                    <h1 className='text-2xl font-medium text-gray-700'>{`${getProducts.name}`}</h1>
+                    <article className='flex flex-col'>
+                        <p className='text-liner-color'>Precio: <span className='text-gray-500'>{`Q.${getProducts.price}`}</span></p>
+                        <p className='text-liner-color'>Presentación: <span className='text-gray-500'>{`${getProducts.weight} ${getProducts.unit_of_measurement}`}</span></p>
+                        <p className='text-liner-color'>Descripción: <span className='text-gray-500'>{`${getProducts.description}`}</span></p>
+                    </article>
+                    </>
+                    :
+                    <SyncLoader className='loader'/>
+                }
+
+
+                    {/* <h1 className='text-2xl font-medium text-gray-700'>Queso fresco</h1>
                     <article className='flex flex-col'>
                         <p className='text-liner-color'>Precio: <span className='text-gray-500'>Q7.5</span></p>
                         <p className='text-liner-color'>Presentación: <span className='text-gray-500'>0.5 libras</span></p>
                         <p className='text-liner-color'>Descripción: <span className='text-gray-500'>Queso fresco de primero calidad</span></p>
-                    </article>
+                    </article> */}
                 </main>
                 <button className='bg-white px-4 rounded h-2/4 w-1/5 max-h-14 border border-side text-side shadow hover:bg-light-blue' >
                     Add record

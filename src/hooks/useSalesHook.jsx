@@ -3,11 +3,13 @@ import {SyncLoader}  from "react-spinners";
 import Swal from 'sweetalert2';
 
 const useSalesHook = () => {
+    
 
     const [sendId, setSendId] = useState(null);
     const [loader, setLoader] = useState(true);
+    const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1";
 
-    const searchProduct = (name, arr) => {
+    const searchProduct = (name, arr) => { 
         try{
             let product =  arr.find(item => item.name === name);
             if(product){
@@ -85,6 +87,7 @@ const useSalesHook = () => {
     return {
         sendId,
         loader,
+        API,
         SyncLoader,
         setLoader,
         setSendId,

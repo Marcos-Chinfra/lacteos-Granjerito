@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const Sales = () => {
-    const { setSendId} = useContext(AppContext);
+    const { setSendId } = useContext(AppContext);
     const [getSales, setGetSales] = useState([]);
 
     const searchSales = (arr) => {

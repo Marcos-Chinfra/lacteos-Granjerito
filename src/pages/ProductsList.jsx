@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AppContext from '../context/AppContext';
+import {Link} from 'react-router-dom';
 import axios  from 'axios';
 
-const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1/products";
-
 const ProductsList = () => {
-    const [product, setProduct] = useState(null);
+    const { sendId ,setSendId, API } = useContext(AppContext);
+    const [ product, setProduct ] = useState(null);
 
     useEffect(() => {
-    axios.get(API)
+    axios.get(`${API}/products`)
         .then((response) => {
             setProduct(response.data);
         });
     }, []);
-    if (!product) return console.error('no funciona');
-    console.log(product)
+    
 
     return (
         <div className='h-full w-full lg:w-4/5 flex p-10 overflow-y-auto flex-col '>
@@ -34,8 +34,16 @@ const ProductsList = () => {
                 {product 
                 ? 
                 product.map(item => (
-                        <article className='w-60 h-64 my-4 border flex items-center justify-end p-2 flex-col mx-auto'>
-                            <h2 className='text-xl font-semibold' key={item.id}>{item.name}</h2>
+                        <article 
+                            className='w-60 h-64 my-4 border flex items-center justify-end p-2 flex-col mx-auto'
+                            key={item.id}
+                        >
+                            <Link 
+                                to={'/production'}
+                                onClick={()=>setSendId(item.id)}
+                            >
+                                <h2 className='text-xl font-semibold'>{item.name}</h2>
+                            </Link>
                             <p className='text-center text-base'>{item.description}</p>
                             <span className='text-sm text-gray-400'>Q{item.price}</span>
                         </article>
