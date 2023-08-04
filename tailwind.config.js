@@ -21,11 +21,16 @@ export default {
       },
       maxWidth:{
         custom: '280px',
+        buttons: '245px',
         button: '160px',
         updateForm:"307px"
       },
       maxHeight:{
         form: '450px'
+      },
+      minHeight:{
+        buttons: '45px',
+        headerProducts: '100px'
       }
     },
   },

@@ -5,7 +5,7 @@ import Step2 from '../components/Step2';
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const SingUp = () => {
-    const [step, setStep] = useState(2);
+    const [step, setStep] = useState(1);
     const [postId, setPostId] = useState(null);
 
     const handleNextStep = (data) => {

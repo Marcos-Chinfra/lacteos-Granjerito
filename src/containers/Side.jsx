@@ -78,9 +78,6 @@ const Side = () => {
                 <li>
                     <Link to="/staff">Empleados</Link>
                 </li>
-                <li>
-                    <Link to="/production">Producción</Link>
-                </li>
             </ul>
         </nav>
     );

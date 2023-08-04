@@ -8,6 +8,7 @@
     z-index: 999;
 }
 
-.loader{
-    color: #11aaff;
+.menu-header-options{
+    bottom: -2px;
+    left: 0px;
 }
