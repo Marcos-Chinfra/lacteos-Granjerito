@@ -6,20 +6,57 @@ import axios  from 'axios';
 const ProductsList = () => {
     const { sendId ,setSendId, API } = useContext(AppContext);
     const [ product, setProduct ] = useState(null);
+    const [categoría, setCategoría] = useState(null);
 
     useEffect(() => {
     axios.get(`${API}/products`)
         .then((response) => {
             setProduct(response.data);
         });
+
+        axios.get(`${API}/categories`)
+        .then((response) => {
+            setCategoría(response.data);
+        });
+
     }, []);
-    
+
+
+
+    const searchCategory = (name, arr) => { 
+        try{
+            let product =  arr.find(item => item.name === name);
+            if(product){
+                return product.id
+            }else{
+                return null
+            }
+        }catch(error){
+            console.error("Error al buscar el producto: " , error);
+            errorAlert('El producto no se puede encontrar en la base de datos');
+            return null
+        }
+    };
+
+
+
+    const handleSelectChange = (event) => {
+        const valorSeleccionado = event.target.value;
+        const category = searchCategory(valorSeleccionado, categoría);
+
+        axios.get(`${API}/products?category=${category}`)
+        .then((response) => {
+            setProduct(response.data);
+        });
+
+    };
+
 
     return (
         <div className='h-full w-full lg:w-4/5 flex p-10 overflow-y-auto flex-col '>
             <section className='flex w-full h-4  items-center'>
                 <label className='mr-2' htmlFor="opciones">Categorías:</label>
-                <select id="opciones" name="opciones">
+                <select id="opciones" name="opciones" onChange={handleSelectChange}>
                     <option value="All">All</option>
                     <option value="Quesos">Quesos</option>
                     <option value="Cremas">Cremas</option>
