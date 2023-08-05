@@ -5,8 +5,7 @@ import useSalesHook from '../hooks/useSalesHook';
 import Layout from '../containers/Layout';
 import NotFound from '../pages/NotFound';
 import Inventory from '../pages/Inventory';
-import Login from '../pages/Login';
-import LoginsStaff from '../pages/LoginsStaff';
+import Home from '../pages/Home';
 import ProductsList from '../pages/ProductsList';
 import Providers from '../pages/Providers';
 import Sales from '../pages/Sales';
@@ -24,8 +23,7 @@ function App() {
       <BrowserRouter>
         <Layout>
           <Routes>
-            <Route exact path='/' element={<Login/>} />
-            <Route exact path='/login-staff' element={<LoginsStaff/>} />
+            <Route exact path='/' element={<Home/>} />
             <Route exact path='/inventory' element={<Inventory/>} />
             <Route exact path='/sales' element={<Sales/>} />
             <Route exact path='/products' element={<ProductsList/>} />

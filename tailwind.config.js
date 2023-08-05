@@ -23,7 +23,12 @@ export default {
         custom: '280px',
         buttons: '245px',
         button: '160px',
-        updateForm:"307px"
+        updateForm:"307px",
+        login: "480px",
+        loginLogo:"765px",
+      },
+      minWidth:{
+        log: "300px"
       },
       maxHeight:{
         form: '450px'
