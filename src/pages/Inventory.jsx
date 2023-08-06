@@ -1,35 +1,58 @@
-import React from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import AppContext from '../context/AppContext';
+import InventoryTable from '../containers/InventoryTable';
+import SaleTable from '../containers/SaleTable';
+
 
 const Inventory = () => {
+    const { API } = useContext(AppContext);
+    const [inventario, setInventario] = useState(true);
+    const [vendidos, setVendidos] = useState(false);
+
+
+    const handleSelectChange = (event) => {
+        const valorSeleccionado = event.target.value;
+        if(valorSeleccionado === 'General'){
+            setInventario(true);
+            setVendidos(false);
+            setRegresados(false);
+            setCambiados(false);
+        }else if(valorSeleccionado === 'Ventas'){
+            setInventario(false);
+            setVendidos(true);
+            setRegresados(false);
+            setCambiados(false);
+        }
+        else if(valorSeleccionado === 'Regresos'){
+            setInventario(false);
+            setVendidos(false);
+            setRegresados(true);
+            setCambiados(false);
+        }
+        else if(valorSeleccionado === 'Cambios'){
+            setInventario(false);
+            setVendidos(false);
+            setRegresados(false);
+            setCambiados(true);
+        }
+    };
+
     return (    
-        <div className='w-screen h-4/5 flex p-10 items-start'>
-            <table className="border-collapse border border-gray-400 w-full" >
-                <thead>
-                    <tr>
-                        <th className="p-2 text-left text-liner-color border-b">id</th>
-                        <th className="p-2 text-left text-liner-color border-b">Product</th>
-                        <th className="p-2 text-left text-liner-color border-b">entradas</th>
-                        <th className="p-2 text-left text-liner-color border-b">salidas</th>
-                        <th className="p-2 text-left text-liner-color border-b">stock</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td className="p-2 text-gray-600">Celda 1</td>
-                        <td className="p-2 text-gray-600">Celda 2</td>
-                        <td className="p-2 text-gray-600">Celda 3</td>
-                        <td className="p-2 text-gray-600">Celda 4</td>
-                        <td className="p-2 text-gray-600">Celda 5</td>
-                    </tr>
-                    <tr>
-                        <td className="p-2 text-gray-600">Celda 6</td>
-                        <td className="p-2 text-gray-600">Celda 7</td>
-                        <td className="p-2 text-gray-600">Celda 8</td>
-                        <td className="p-2 text-gray-600">Celda 9</td>
-                        <td className="p-2 text-gray-600">Celda 10</td>
-                    </tr>
-                </tbody>
-            </table>
+        <div className='w-screen h-4/5 flex flex-col p-10 items-start'>
+            <section className='flex w-full h-4  items-center'>
+                <label className='mr-2' htmlFor="opciones">Categorías:</label>
+                <select id="opciones" name="opciones" onChange={handleSelectChange}>
+                    <option value="General">General</option>
+                    <option value="Ventas">Ventas</option>
+                    <option value="Regresos">Regresos</option>
+                    <option value="Cambios">Cambios</option>
+                </select>
+            </section>
+            <section>
+                {inventario && <InventoryTable API={API}/>}
+                {vendidos && <SaleTable API={API}/>}
+
+            </section>
         </div>
     );
 }

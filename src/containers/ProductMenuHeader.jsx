@@ -1,7 +1,7 @@
 import React from 'react';
 import {SyncLoader}  from "react-spinners";
 
-const ProductMenuHeader = ({ children, getProducts }) => {
+const ProductMenuHeader = ({ children, getProducts, handleShiftOutput, handleReturn, handleUnsold, cambiados, regresados, fabricados }) => {
     return (
         <>
             <header className='bg-Magnolia w-full px-2 sm:px-4 py-2 rounded-md shadow flex flex-col relative'>
@@ -59,19 +59,22 @@ const ProductMenuHeader = ({ children, getProducts }) => {
 
                 <div className="w-2/5 max-w-buttons inline-flex rounded-lg bg-Magnolia  absolute menu-header-options">
                     <button
-                        className="inline-block rounded-t px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative"
+                        className={`inline-block rounded-t  px-4 py-2 text-sm ${regresados ? 'border-white bg-white text-created border-b-4 z-10' : 'text-gray-500 hover:text-gray-700'}`}
+                        onClick={() => {handleUnsold()}}
                     >
-                        Editar
+                        Regresos
                     </button>
 
                     <button
-                        className="inline-block rounded-t px-4 py-2 text-sm text-gray-500 hover:text-gray-700 focus:relative"
+                        className={`inline-block rounded-t px-4 py-2 text-sm ${cambiados ? 'border-white bg-white  text-created border-b-4 z-10' : 'text-gray-500 hover:text-gray-700'}`}
+                        onClick={() => {handleReturn()}}
                     >
-                        Ventas
+                        Cambios
                     </button>
 
                     <button
-                        className="inline-block rounded-t bg-white px-4 py-2 text-sm border-white text-created border-b-4 z-10 "
+                        className={`inline-block rounded-t  px-4 py-2 text-sm ${fabricados ? 'border-white bg-white text-created border-b-4 z-10' : 'text-gray-500 hover:text-gray-700'}`}
+                        onClick={() => {handleShiftOutput()}}
                     >
                         Producción
                     </button>
