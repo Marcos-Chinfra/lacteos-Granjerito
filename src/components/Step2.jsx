@@ -90,8 +90,9 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
                 product: '',
                 quantity: ''
             })
+            newRecord(record.product, record.quantity )
         }
-        newRecord(record.product, record.quantity )
+        
     }
 
     return (
@@ -197,7 +198,7 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
         </div>
         <Link to="/sales" className='bottom-4 left-5 lg:bottom-10 lg:left-16 absolute bg-side py-2 px-4 rounded text-button'>
             Listo
-            </Link> 
+        </Link> 
         </>
         
     );

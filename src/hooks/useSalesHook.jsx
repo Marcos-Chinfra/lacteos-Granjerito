@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {SyncLoader}  from "react-spinners";
+import { SyncLoader }  from "react-spinners";
 import Swal from 'sweetalert2';
 
 const useSalesHook = () => {

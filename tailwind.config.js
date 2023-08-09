@@ -25,13 +25,18 @@ export default {
         button: '160px',
         updateForm:"307px",
         login: "480px",
+        tables: "500px",
+        pieChartInventory: "440px",
+        formInventory: "400px",
         loginLogo:"765px",
       },
       minWidth:{
-        log: "300px"
+        log: "300px",
+        chart: "270px"
       },
       maxHeight:{
-        form: '450px'
+        form: '450px',
+        tables: '690px'
       },
       minHeight:{
         buttons: '45px',
