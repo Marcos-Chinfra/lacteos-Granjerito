@@ -1,5 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react';
 import axios from "axios";
+import BartChart from "../components/BartChart";
+import PieChart from "../components/PieChart";
 import AppContext from '../context/AppContext';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +10,8 @@ const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 const Sales = () => {
     const { setSendId } = useContext(AppContext);
     const [getSales, setGetSales] = useState([]);
+    const [getAllSales, setGetAllSales] = useState(null);
+    const [dataChart, setDataChart] = useState({})
 
     const searchSales = (arr) => {
         let sale = arr.filter((item) => item.total === 0 )
@@ -18,11 +22,32 @@ const Sales = () => {
         axios.get(`${API}/sales`)
         .then((response) => {searchSales(response.data)})
         .catch((err) => console.error(err))
+
+        axios.get(`${API}/sold-products`)
+        .then((response) => {setGetAllSales(response.data)})
+        .catch((err) => console.error(err))
     }, []);
+
+    useEffect(()=>{
+        const sold = {};
+        if(getAllSales){
+            getAllSales.forEach(item => {
+                const name = item.product.name;
+                const amount = item.amount;
+                if(sold.hasOwnProperty(name)) {
+                    sold[name] += amount;
+                } else {
+                    sold[name] = amount;
+                }
+            });
+        }
+        setDataChart(sold)
+    },[getAllSales])
+console.log(dataChart)
 
     return (
         <div 
-            className='w-screen h-4/5 flex p-5 mt-6 lg:mt-0 lg:p-10 items-start'
+            className='w-screen  flex flex-col p-5 mt-6 lg:mt-0 lg:p-10 items-start overflow-y-auto'
         >
             <section 
                 className='w-full flex flex-col lg:flex-row  items-center gap-7'
@@ -80,6 +105,14 @@ const Sales = () => {
                     >
                         Registrar nueva venta
                 </Link>
+            </section>
+            <section className='w-full flex mt-5'>
+                <article className='w-1/2'>
+                    <BartChart/>
+                </article>
+                <article className='w-1/2'>
+                    <PieChart dataChart={dataChart}/>
+                </article>
             </section>
         </div>
     );
