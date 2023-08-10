@@ -5,7 +5,7 @@ import AppContext from '../context/AppContext';
 import PieChart from '../components/PieChart';
 
 const InventoryUnSold = () => {
-    const {SyncLoader, API} = useContext(AppContext);
+    const {SyncLoader, API, sortDirection, handleSortChange} = useContext(AppContext);
     const [getUnSold, setGetUnSold] = useState(null);
     const [dataChart, setDataChart] = useState({})
 
@@ -20,10 +20,9 @@ const InventoryUnSold = () => {
 
     useEffect(()=>{
         axios.get(`${API}/unsold-products`)
-            .then((response)=>{setGetUnSold(response.data)})
+            .then((response)=>{setGetUnSold(handleSortChange(response.data))})
             .catch((err)=>{console.error(err)})
         
-
     },[]);
 
     useEffect(()=>{
@@ -41,15 +40,30 @@ const InventoryUnSold = () => {
             });
         }
         setDataChart(unSold)
-    },[getUnSold])
+    },[getUnSold]);
 
 
     return (
         <main className='w-full flex flex-col md:flex-row '>          
-            <section className='w-full md:w-1/2  overflow-x-auto  max-w-tables mx-auto'>
+            <section className='w-full md:w-1/2 '>
                 { getUnSold 
                     ?   
-                        <UnsoldTable getUnSold={getUnSold} /> 
+                    <div className='max-w-tables mx-auto relative overflow-x-auto'>
+                        <div className='w-full flex justify-center my-2'>
+                            <button className='absolute left-0' onClick={()=>handleSortChange(getUnSold)}>
+                                {sortDirection === 'asc' 
+                                ? 
+                                    <i className="fa-solid fa-arrow-up-long text-lg text-side hover:text-liner-color"></i> 
+                                : 
+                                    <i className="fa-solid fa-arrow-down-long text-lg text-side hover:text-liner-color"></i>
+                                }
+                            </button>
+                            <h1>
+                                Regresos
+                            </h1>
+                        </div>
+                        <UnsoldTable getUnSold={getUnSold} />
+                    </div>
                     :
                         <SyncLoader color='#11aaff'  cssOverride={override} />
                 }

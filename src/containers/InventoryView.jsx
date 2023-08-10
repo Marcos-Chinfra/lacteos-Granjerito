@@ -2,9 +2,10 @@ import React, {useState, useEffect, useRef, useContext} from 'react';
 import axios from 'axios';
 import BartChart from '../components/BartChart';
 import AppContext from '../context/AppContext';
+import InventoryTable from '../components/InventoryTable';
 
-const InventoryTable = ({API}) => {
-    const { searchProduct, successAlert, errorAlert, SyncLoader } = useContext(AppContext)
+const InventoryView = ({API}) => {
+    const { searchProduct, successAlert, errorAlert, SyncLoader, sortDirection, handleSortChange } = useContext(AppContext)
     const [getProduct, setGetProduct] = useState(null);
     const [getInventory, setGetInventory] = useState(null);
     const [post ,setPost] = useState(null);
@@ -31,7 +32,7 @@ const InventoryTable = ({API}) => {
 
     useEffect(()=>{
         axios.get(`${API}/inventory`)
-            .then((response)=>{setGetInventory(response.data)})
+            .then((response)=>{setGetInventory(handleSortChange(response.data))})
             .catch((err)=>{console.error(err)})
 
         axios.get(`${API}/products`)
@@ -123,57 +124,33 @@ const InventoryTable = ({API}) => {
 
     return (
         <main className='w-full flex flex-col md:flex-row '>        
-            <section className='w-full md:w-1/2 md:px-4 overflow-x-auto '>
-                {getInventory ? 
-                <table className="w-full max-w-tables mx-auto border border-gray-300 shadow rounded-sm " >
-                    <caption className='w-full relative my-2'>
-                        <h1>Inventario</h1>
+            <section className='w-full md:w-1/2 md:px-4  '>
+                {getInventory 
+                ? 
+                <div className='max-w-tables mx-auto relative overflow-x-auto'>
+                    <div className='w-full flex justify-center my-2'>
+                        <button className='absolute left-0' onClick={()=>handleSortChange(getInventory)}>
+                            {sortDirection === 'asc' 
+                            ? 
+                                <i className="fa-solid fa-arrow-up-long text-lg text-side hover:text-liner-color"></i> 
+                            : 
+                                <i className="fa-solid fa-arrow-down-long text-lg text-side hover:text-liner-color"></i>
+                            }
+                        </button>
+                        <h1>
+                            Inventario
+                        </h1>
                         <a 
                             className='absolute right-0 top-0 text-xs py-1 px-2 bg-created rounded text-white md:hidden'
                             href='#formulario'
                         >
                             Registrar
                         </a>
-                    </caption>
-
-                    <thead>
-                        <tr>
-                            <th className="py-1 px-2 text-left text-strong-blue  border-b text-sm">Producto</th>
-                            <th className="py-1 px-2 text-left text-strong-blue  border-b text-sm">Entradas</th>
-                            <th className="py-1 px-2 text-left text-strong-blue r border-b text-sm">Salidas</th>
-                            <th className="py-1 px-2 text-left text-strong-blue  border-b text-sm">Stock</th>
-                            <th className="py-1 px-2 text-left text-strong-blue  border-b text-sm">Fecha</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {getInventory 
-                        &&
-                            getInventory.map((item)=>(
-                            <tr key={item.id}>
-                                <td className="py-1 px-2 text-text-color text-sm ">{item.product.name}</td>
-                                <td className="py-1 px-2 text-text-color text-sm">{item.incomings}</td>
-                                <td className="py-1 px-2 text-text-color text-sm">{item.withdrawals}</td>
-                                <td className="py-1 px-2 text-text-color text-sm">{item.stock}</td>
-                                <td className="py-1 px-2 text-text-color text-sm hidden lg:table-cell"> 
-                                    {new Date(item.createdAt).toLocaleDateString('es-GT', {
-                                        year: 'numeric',
-                                        month: '2-digit',
-                                        day: '2-digit',
-                                    })}
-                                
-                                </td>
-                                <td className="py-1 px-2 text-text-color text-sm table-cell lg:hidden">
-                                    {new Date(item.createdAt).toLocaleDateString('es-GT', {
-                                        month: '2-digit',
-                                        day: '2-digit',
-                                    })}
-                                </td>
-                            </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
-                : <SyncLoader color='#11aaff'  cssOverride={override} />}
+                    </div>
+                    <InventoryTable getInventory={getInventory} />
+                </div>
+                : 
+                    <SyncLoader color='#11aaff'  cssOverride={override} />}
             </section>
             
             <article className='w-full md:w-1/2 md:px-3 mt-5 md:mt-0'>
@@ -236,4 +213,4 @@ const InventoryTable = ({API}) => {
     );
 }
 
-export default InventoryTable;
+export default InventoryView;

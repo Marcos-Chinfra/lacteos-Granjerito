@@ -1,9 +1,9 @@
 import React from 'react';
 
 const ReturnedTable = ({getReturned}) => {
+
     return (
         <table className="w-full border border-gray-200 shadow rounded" >
-        <caption>Cambios</caption>
         <thead>
             <tr>
                 <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Producto</th>

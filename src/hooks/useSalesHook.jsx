@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 
 const useSalesHook = () => {
     
-
+    const [sortDirection, setSortDirection] = useState('asc');
     const [sendId, setSendId] = useState(null);
     const [loader, setLoader] = useState(true);
     const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1";
@@ -84,10 +84,24 @@ const useSalesHook = () => {
         })
     };
 
+    const handleSortChange = (arr) => {
+        const newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+        setSortDirection(newSortDirection);
+
+        const sorted = arr.sort((a, b) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            return newSortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+        });
+        return sorted
+    };
+
+
     return {
         sendId,
         loader,
         API,
+        sortDirection, 
         SyncLoader,
         setLoader,
         setSendId,
@@ -95,7 +109,8 @@ const useSalesHook = () => {
         saveAlert,
         errorAlert,
         successAlert,
-        alertDelete
+        alertDelete,
+        handleSortChange
     }
 };
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import AppContext from '../context/AppContext';
-import InventoryTable from '../containers/InventoryTable';
+import InventoryView from '../containers/InventoryView';
 import InventoryShifts from '../containers/InventoryShifts';
 import InventoryReturned from '../containers/InventoryReturned';
 import SaleTable from '../containers/SaleTable';
@@ -54,7 +54,7 @@ const Inventory = () => {
                 </select>
             </section>
             <section className='w-full mt-4'>
-                {inventario && <InventoryTable API={API}/>}
+                {inventario && <InventoryView API={API}/>}
                 {fabricados && <InventoryShifts API={API}/>}
                 {regresados && <InventoryUnSold API={API}/>}
                 {cambiados && <InventoryReturned API={API}/>}

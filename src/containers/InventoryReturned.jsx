@@ -5,7 +5,7 @@ import ReturnedTable from '../components/ReturnedTable';
 import PieChart from '../components/PieChart';
 
 const InventoryReturned = ({API}) => {
-    const {SyncLoader} = useContext(AppContext)
+    const {SyncLoader, handleSortChange, sortDirection} = useContext(AppContext)
     const [getReturned, setGetReturned] = useState(null);
     const [dataChart, setDataChart] = useState({})
 
@@ -20,7 +20,7 @@ const InventoryReturned = ({API}) => {
 
     useEffect(()=>{
         axios.get(`${API}/returned-products`)
-            .then((response)=>{setGetReturned(response.data)})
+            .then((response)=>{setGetReturned(handleSortChange(response.data))})
             .catch((err)=>{console.error(err)})
     },[]);
 
@@ -39,15 +39,34 @@ const InventoryReturned = ({API}) => {
             });
         }
         setDataChart(unSold)
+
     },[getReturned])
+
+    console.log(getReturned)
 
     return (
         <main className='w-full flex flex-col md:flex-row '>
-            <section className='w-full md:w-1/2  overflow-x-auto  max-w-tables mx-auto'>
+            <section className='w-full md:w-1/2 '>
                 {
                     getReturned 
                     ?
-                        <ReturnedTable getReturned={getReturned}/>
+                    <div className='relative overflow-x-auto max-w-tables mx-auto'>
+                        <div className='w-full flex justify-center my-2'>
+                            <button className='absolute left-0' onClick={() => handleSortChange(getReturned)}>
+                                {sortDirection === 'asc' 
+                                ? 
+                                    <i className="fa-solid fa-arrow-up-long text-lg text-side hover:text-liner-color"></i> 
+                                : 
+                                    <i className="fa-solid fa-arrow-down-long text-lg text-side hover:text-liner-color"></i>
+                                }
+                            </button>
+                            <h1>
+                                Cambios
+                            </h1>
+                        </div>
+                        <ReturnedTable getReturned={getReturned} />
+                    </div>
+                        
                     :
                         <SyncLoader color='#11aaff'  cssOverride={override} />
                 }

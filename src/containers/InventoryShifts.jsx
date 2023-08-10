@@ -5,7 +5,7 @@ import Manufactured from '../components/Manufactured';
 import PieChart from '../components/PieChart';
 
 const InventoryShifts = () => {
-    const {SyncLoader, API, searchProduct, successAlert, errorAlert} = useContext(AppContext);
+    const {SyncLoader, API, searchProduct, successAlert, errorAlert, sortDirection, handleSortChange } = useContext(AppContext);
     const [post, setPost] = useState(null);
     const [getProduct, setGetProduct] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
@@ -21,7 +21,7 @@ const InventoryShifts = () => {
     useEffect(() => {
         axios.get(`${API}/shift-output`)
             .then((response) => {
-                setGetShifts(response.data);
+                setGetShifts(handleSortChange(response.data));
             })
             .catch((err)=>{console.error(err)})
 
@@ -124,14 +124,24 @@ const InventoryShifts = () => {
 
     return (
         <main className='w-full flex flex-col md:flex-row mt-4'>
-            <section className='w-full md:w-1/2 md:px-4 overflow-x-auto'>
+            <section className='w-full md:w-1/2 md:px-4 '>
                 { getShifts 
                     ?   
-                        <div className='text-center max-w-tables mx-auto relative'>
-                            <h1 className='mb-2'>
-                                Producción
-                            </h1>
-                            <a href="#formulario" className='absolute top-0 right-0 text-xs py-1 px-2 bg-created rounded text-white md:hidden'> Registrar</a>
+                        <div className='max-w-tables mx-auto relative overflow-x-auto'>
+                            <div className='w-full flex justify-center my-2'>
+                                <button className='absolute left-0' onClick={()=>handleSortChange(getShifts)}>
+                                    {sortDirection === 'asc' 
+                                    ? 
+                                        <i className="fa-solid fa-arrow-up-long text-lg text-side hover:text-liner-color"></i> 
+                                    : 
+                                        <i className="fa-solid fa-arrow-down-long text-lg text-side hover:text-liner-color"></i>
+                                    }
+                                </button>
+                                <h1 className='mb-2'>
+                                    Producción
+                                </h1>
+                                <a href="#formulario" className='absolute top-0 right-0 text-xs py-1 px-2 bg-created rounded text-white md:hidden'> Registrar</a>
+                            </div>
                             <Manufactured getShifts={getShifts} /> 
                         </div>
                     :

@@ -38,16 +38,21 @@ const ProductsList = () => {
         }
     };
 
-
-
     const handleSelectChange = (event) => {
         const valorSeleccionado = event.target.value;
         const category = searchCategory(valorSeleccionado, categoría);
 
-        axios.get(`${API}/products?category=${category}`)
-        .then((response) => {
-            setProduct(response.data);
-        });
+        if(valorSeleccionado === 'All'){
+            axios.get(`${API}/products`)
+            .then((response) => {
+                setProduct(response.data);
+            });
+        }else{
+            axios.get(`${API}/products?category=${category}`)
+            .then((response) => {
+                setProduct(response.data);
+            });
+        }
 
     };
 

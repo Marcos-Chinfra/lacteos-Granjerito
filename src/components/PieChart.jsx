@@ -5,6 +5,13 @@ import { Pie } from 'react-chartjs-2';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const PieChart = ({ dataChart }) => {
+    const datos = Object.keys(dataChart)
+    const totalItems = datos.length;
+
+    const backgroundColors = Array.from({ length: totalItems }, (_, index) => {
+        const hue = (360 / totalItems) * index;
+        return `hsl(${hue}, 70%, 60%)`;
+    });
 
     const data = {
         labels: Object.keys(dataChart),
@@ -12,19 +19,9 @@ const PieChart = ({ dataChart }) => {
             {
                 label: 'Regresos de los productos',
                 data: Object.values(dataChart),
-                borderColor: [
-                    'rgb(240, 130, 41)',
-                    'rgb(1, 93, 176)',
-                    'rgb(70, 98, 51)'
-                ],
+                borderColor: backgroundColors,
                 borderWidth: 1,
-                backgroundColor: [
-                    'rgb(240, 130, 41)',
-                    'rgb(1, 93, 176)',
-                    'rgb(70, 98, 51)'
-                ]
-
-
+                backgroundColor: backgroundColors
             },
         ],
     };

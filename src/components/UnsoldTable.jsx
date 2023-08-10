@@ -6,7 +6,6 @@ const UnsoldTable = ({getUnSold}) => {
 
     return (
             <table className="w-full border border-gray-200 shadow rounded" >
-                <caption>Regresos</caption>
                 <thead>
                     <tr>
                         <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Producto</th>
