@@ -12,3 +12,7 @@
     bottom: -2px;
     left: 0px;
 }
+
+.scroll{
+    scroll-behavior: smooth;
+}

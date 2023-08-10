@@ -125,7 +125,7 @@ const InventoryTable = ({API}) => {
         <main className='w-full flex flex-col md:flex-row '>        
             <section className='w-full md:w-1/2 md:px-4 overflow-x-auto '>
                 {getInventory ? 
-                <table className="w-full max-w-tables mx-auto border border-gray-300 shadow rounded-sm" >
+                <table className="w-full max-w-tables mx-auto border border-gray-300 shadow rounded-sm " >
                     <caption className='w-full relative my-2'>
                         <h1>Inventario</h1>
                         <a 
@@ -154,13 +154,19 @@ const InventoryTable = ({API}) => {
                                 <td className="py-1 px-2 text-text-color text-sm">{item.incomings}</td>
                                 <td className="py-1 px-2 text-text-color text-sm">{item.withdrawals}</td>
                                 <td className="py-1 px-2 text-text-color text-sm">{item.stock}</td>
-                                <td className="py-1 px-2 text-text-color text-sm"> 
-                                {new Date(item.createdAt).toLocaleDateString('es-GT', {
-                                    year: 'numeric',
-                                    month: '2-digit',
-                                    day: '2-digit',
-                            })}
+                                <td className="py-1 px-2 text-text-color text-sm hidden lg:table-cell"> 
+                                    {new Date(item.createdAt).toLocaleDateString('es-GT', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                    })}
                                 
+                                </td>
+                                <td className="py-1 px-2 text-text-color text-sm table-cell lg:hidden">
+                                    {new Date(item.createdAt).toLocaleDateString('es-GT', {
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                    })}
                                 </td>
                             </tr>
                             ))

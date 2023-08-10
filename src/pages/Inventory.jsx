@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import AppContext from '../context/AppContext';
 import InventoryTable from '../containers/InventoryTable';
 import InventoryShifts from '../containers/InventoryShifts';
-import ReturnTable from '../containers/ReturnTable';
+import InventoryReturned from '../containers/InventoryReturned';
 import SaleTable from '../containers/SaleTable';
 import InventoryUnSold from '../containers/InventoryUnSold';
 
@@ -43,7 +43,7 @@ const Inventory = () => {
     };
 
     return (    
-        <div className='w-screen h-4/5 flex flex-col px-10 py-5 items-start'>
+        <div className='w-screen  flex flex-col px-10 py-5 items-start overflow-y-auto scroll'>
             <section className='flex w-full h-4  items-center '>
                 <label className='mr-2' htmlFor="opciones">Categorías:</label>
                 <select id="opciones" name="opciones" onChange={handleSelectChange}>
@@ -53,11 +53,11 @@ const Inventory = () => {
                     <option value="Cambios">Cambios</option>
                 </select>
             </section>
-            <section className='w-full mt-4 h-full'>
+            <section className='w-full mt-4'>
                 {inventario && <InventoryTable API={API}/>}
                 {fabricados && <InventoryShifts API={API}/>}
                 {regresados && <InventoryUnSold API={API}/>}
-                {cambiados && <ReturnTable API={API}/>}
+                {cambiados && <InventoryReturned API={API}/>}
             </section>
         </div>
     );

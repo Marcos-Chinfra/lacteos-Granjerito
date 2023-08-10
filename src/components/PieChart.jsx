@@ -4,26 +4,23 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart = () => {
+const PieChart = ({ dataChart }) => {
+
     const data = {
-        labels: ['Queso', 'Crema', 'Requeson', 'Mantequilla', 'Yogurt'],
+        labels: Object.keys(dataChart),
         datasets: [
             {
                 label: 'Regresos de los productos',
-                data: [150, 199, 300, 237, 239],
+                data: Object.values(dataChart),
                 borderColor: [
-                    'rgba(75, 192, 192, 0.2)',
                     'rgb(240, 130, 41)',
                     'rgb(1, 93, 176)',
-                    'rgb(112, 118, 149)',
                     'rgb(70, 98, 51)'
                 ],
                 borderWidth: 1,
                 backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
                     'rgb(240, 130, 41)',
                     'rgb(1, 93, 176)',
-                    'rgb(112, 118, 149)',
                     'rgb(70, 98, 51)'
                 ]
 

@@ -5,28 +5,34 @@ import React  from 'react';
 const UnsoldTable = ({getUnSold}) => {
 
     return (
-            <table className="border-collapse border border-gray-400  w-full " >
+            <table className="w-full border border-gray-200 shadow rounded" >
                 <caption>Regresos</caption>
                 <thead>
                     <tr>
-                        <th className="p-2 text-left text-strong-blue border-b">Producto</th>
-                        <th className="p-2 text-left text-strong-blue border-b">Cantidad</th>
-                        <th className="p-2 text-left text-strong-blue border-b">Vendedor</th>
-                        <th className="p-2 text-left text-strong-blue border-b">Ruta</th>
-                        <th className="p-2 text-left text-strong-blue border-b">Fecha</th>
+                        <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Producto</th>
+                        <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Cantidad</th>
+                        <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Vendedor</th>
+                        <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Ruta</th>
+                        <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Fecha</th>
                     </tr>
                 </thead>
                 <tbody>
                     {getUnSold &&
                         getUnSold.map((item)=>(
                             <tr key={item.id}> 
-                                <td className="p-2 text-gray-600">{item.product.name}</td>
-                                <td className="p-2 text-gray-600">{item.amount}</td>
-                                <td className="p-2 text-gray-600">{item.sale.staff.name}</td>
-                                <td className="p-2 text-gray-600">{item.sale.route.name}</td>
-                                <td className="p-2 text-gray-600">
+                                <td className="px-1 py-1 text-left text-text-color text-sm font-normal">{item.product.name}</td>
+                                <td className="px-1 py-1 text-left text-text-color text-sm font-normal">{item.amount}</td>
+                                <td className="px-1 py-1 text-left text-text-color text-sm font-normal">{item.sale.staff.name}</td>
+                                <td className="px-1 py-1 text-left text-text-color text-sm font-normal">{item.sale.route.name}</td>
+                                <td className="px-1 py-1 text-left text-text-color text-sm font-normal hidden lg:table-cell">
                                     {new Date(item.createdAt).toLocaleDateString('es-GT', {
                                         year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                    })}
+                                </td>
+                                <td className="px-1 py-1 text-left text-text-color text-sm font-normal table-cell lg:hidden">
+                                    {new Date(item.createdAt).toLocaleDateString('es-GT', {
                                         month: '2-digit',
                                         day: '2-digit',
                                     })}

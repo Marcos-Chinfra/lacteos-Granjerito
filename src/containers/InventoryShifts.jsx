@@ -11,6 +11,7 @@ const InventoryShifts = () => {
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorQuantity, setErrorQuantity] = useState(false);
     const [getShifts, setGetShifts] = useState(null);
+    const [dataChart, setDataChart] = useState({})
     const [inputData, setInputData] = useState({
         product: '',
         quantity: ''
@@ -37,6 +38,23 @@ const InventoryShifts = () => {
             }
         }
     }, [post]);
+
+    useEffect(()=>{
+        const unSold = {};
+        if(getShifts){
+            getShifts.forEach(item => {
+                const name = item.product.name;
+                const amount = item.amount;
+
+                if(unSold.hasOwnProperty(name)) {
+                    unSold[name] += amount;
+                } else {
+                    unSold[name] = amount;
+                }
+            });
+        }
+        setDataChart(unSold)
+    },[getShifts])
 
     const override =  {
         display: "flex",
@@ -106,7 +124,7 @@ const InventoryShifts = () => {
 
     return (
         <main className='w-full flex flex-col md:flex-row mt-4'>
-            <section className='w-full md:w-1/2 md:px-4 overflow-x-auto overflow-y-auto '>
+            <section className='w-full md:w-1/2 md:px-4 overflow-x-auto'>
                 { getShifts 
                     ?   
                         <div className='text-center max-w-tables mx-auto relative'>
@@ -120,8 +138,8 @@ const InventoryShifts = () => {
                         <SyncLoader color='#11aaff'  cssOverride={override} />
                 }
             </section>
-            <article className='w-full md:w-1/2 md:px-3 mt-5 md:mt-0 overflow-y-auto'>
-                <PieChart />
+            <article className='w-full md:w-1/2 md:px-3 mt-5 md:mt-0 '>
+                <PieChart dataChart={dataChart} />
                 <form 
                     id='formulario' 
                     ref={form}

@@ -3,7 +3,7 @@ import AppContext from '../context/AppContext';
 import ProductMenuHeader from '../containers/ProductMenuHeader';
 import ShiftOutput from '../components/ShiftOutput';
 //import UnsoldTable from '../containers/UnsoldTable';
-import ReturnTable from '../containers/ReturnTable';
+//import ReturnTable from '../containers/ReturnTable';
 import axios from 'axios';
 
 const Production = () => {
@@ -48,7 +48,7 @@ const Production = () => {
             <ProductMenuHeader getProducts={getProducts} handleShiftOutput={handleShiftOutput} handleReturn={handleReturn} handleUnsold={handleUnsold} fabricados={fabricados} regresados={regresados} cambiados={cambiados}>
                 {fabricados && <ShiftOutput get={get} /> }
                 {regresados && <UnsoldTable API={API} get={get}/>}
-                {cambiados && <ReturnTable API={API} get={get}/>}
+                {/*cambiados && <ReturnTable API={API} get={get}/>*/}
             </ProductMenuHeader>
         </div>
     );

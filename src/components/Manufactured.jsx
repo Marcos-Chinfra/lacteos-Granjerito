@@ -25,9 +25,16 @@ const Manufactured = ({ getShifts }) => {
                         <td className="px-2 py-1 text-left text-text-color text-sm font-normal">
                             {`${item.workingDay}`}
                         </td>
-                        <td className="px-2 py-1 text-left text-text-color text-sm font-normal">
+                        <td className="px-2 py-1 text-left text-text-color text-sm font-normal hidden lg:table-cell">
                             {new Date(item.createdAt).toLocaleDateString('es-GT', {
                                 year: 'numeric',
+                                month: '2-digit',
+                                day: '2-digit',
+                            })}
+                            
+                        </td>
+                        <td className="px-1 py-1 text-left text-text-color text-sm font-normal table-cell lg:hidden">
+                            {new Date(item.createdAt).toLocaleDateString('es-GT', {
                                 month: '2-digit',
                                 day: '2-digit',
                             })}
