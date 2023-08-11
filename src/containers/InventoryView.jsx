@@ -5,7 +5,7 @@ import AppContext from '../context/AppContext';
 import InventoryTable from '../components/InventoryTable';
 
 const InventoryView = ({API}) => {
-    const { searchProduct, successAlert, errorAlert, SyncLoader, sortDirection, handleSortChange } = useContext(AppContext)
+    const { searchProduct, successAlert, errorAlert, SyncLoader, sortDirection, handleSortChange, getToken } = useContext(AppContext)
     const [getProduct, setGetProduct] = useState(null);
     const [getInventory, setGetInventory] = useState(null);
     const [post ,setPost] = useState(null);
@@ -29,13 +29,18 @@ const InventoryView = ({API}) => {
         margin: "20px 0",
         height: "60px"
     };
-
+    console.log(getToken)
     useEffect(()=>{
-        axios.get(`${API}/inventory`)
+        const headers = {
+            'API': '121319',
+            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MTcyNDQ1OCwiZXhwIjoxNjkxNzI0NzU4fQ.8Iya8Y2_QrRpBDiV5K6i-e5-YA2xR_9N5CGfovaaAYE`
+        }
+
+        axios.get(`${API}/inventory`, { headers })
             .then((response)=>{setGetInventory(handleSortChange(response.data))})
             .catch((err)=>{console.error(err)})
 
-        axios.get(`${API}/products`)
+        axios.get(`${API}/products`, { headers })
             .then((response) => {setGetProduct(response.data)});
     },[]);
 

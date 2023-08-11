@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 const useSalesHook = () => {
     
     const [sortDirection, setSortDirection] = useState('asc');
+    const [getToken, setGetToken ] = useState(null)
     const [sendId, setSendId] = useState(null);
     const [loader, setLoader] = useState(true);
     const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1";
@@ -101,7 +102,9 @@ const useSalesHook = () => {
         sendId,
         loader,
         API,
-        sortDirection, 
+        sortDirection,
+        getToken, 
+        setGetToken, 
         SyncLoader,
         setLoader,
         setSendId,
