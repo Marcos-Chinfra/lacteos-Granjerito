@@ -5,28 +5,43 @@ import Manufactured from '../components/Manufactured';
 import PieChart from '../components/PieChart';
 
 const InventoryShifts = () => {
-    const {SyncLoader, API, searchProduct, successAlert, errorAlert, sortDirection, handleSortChange } = useContext(AppContext);
+    const {SyncLoader, API, searchProduct, successAlert, errorAlert, sortDirection, handleSortChange, getToken, handleSort } = useContext(AppContext);
     const [post, setPost] = useState(null);
     const [getProduct, setGetProduct] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorQuantity, setErrorQuantity] = useState(false);
     const [getShifts, setGetShifts] = useState(null);
-    const [dataChart, setDataChart] = useState({})
+    const [dataPieChart, setDataPieChart] = useState({})
     const [inputData, setInputData] = useState({
         product: '',
         quantity: ''
     });
     const form = useRef(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
+
     useEffect(() => {
-        axios.get(`${API}/shift-output`)
+        axios.get(`${API}/shift-output`, { headers })
             .then((response) => {
-                setGetShifts(handleSortChange(response.data));
+                setGetShifts(handleSort(response.data));
             })
             .catch((err)=>{console.error(err)})
 
-        axios.get(`${API}/products`)
+        axios.get(`${API}/products`, { headers })
             .then((response) => {setGetProduct(response.data)});
+    },[]);
+
+    useEffect(() => {
+        if(getShifts){
+            axios.get(`${API}/shift-output`, { headers })
+            .then((response) => {setGetShifts(handleSort(response.data));})
+            .catch((err)=>{console.error(err)})
+        }
     },[post]);
 
     useEffect(() => {
@@ -53,7 +68,7 @@ const InventoryShifts = () => {
                 }
             });
         }
-        setDataChart(unSold)
+        setDataPieChart(unSold)
     },[getShifts])
 
     const override =  {
@@ -75,12 +90,12 @@ const InventoryShifts = () => {
     }
 
     const createdRecord = (producto, cantidad )=> {
-        let item = searchProduct(producto, getProduct)
+        let item = searchProduct(producto, getProduct);
 
         axios.post(`${API}/shift-output`, {
             productId: item,
             amount: cantidad,
-        })
+        }, { headers })
         .then((response)=>{setPost(response)})
         .catch((error) => {
             if (error.response) {
@@ -122,6 +137,8 @@ const InventoryShifts = () => {
         }
     }
 
+    console.log(sortDirection)
+
     return (
         <main className='w-full flex flex-col md:flex-row mt-4'>
             <section className='w-full md:w-1/2 md:px-4 '>
@@ -149,7 +166,7 @@ const InventoryShifts = () => {
                 }
             </section>
             <article className='w-full md:w-1/2 md:px-3 mt-5 md:mt-0 '>
-                <PieChart dataChart={dataChart} />
+                <PieChart dataPieChart={dataPieChart} title={'Productos elaborados'}/>
                 <form 
                     id='formulario' 
                     ref={form}

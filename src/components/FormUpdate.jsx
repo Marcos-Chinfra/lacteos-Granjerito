@@ -4,21 +4,27 @@ import AppContext from '../context/AppContext';
 
 
 const FormUpdate = ({ itemId, API, setUpdate }) => {
-    const { successAlert, errorAlert, alertDelete } = useContext(AppContext);
+    const { successAlert, errorAlert, alertDelete, getToken } = useContext(AppContext);
     const [getRecord, setGetRecord] = useState(null);
     const [amount, setAmount] = useState(null);
     const [updateData, setUpdateData] = useState(null)
     const form = useRef(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
-        axios.get(`${API}/unsold-products/${itemId}`)
+        axios.get(`${API}/unsold-products/${itemId}`, { headers })
             .then((response) => {
                 setGetRecord(response.data);
             });
     }, []);
 
     useEffect(() => {
-        axios.get(`${API}/unsold-products/${itemId}`)
+        axios.get(`${API}/unsold-products/${itemId}`, { headers })
             .then((response) => {
                 setGetRecord(response.data);
             });
@@ -34,12 +40,10 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
         }
     },[updateData]);
 
-    console.log(updateData);
-
     const updateItem = (amount) => {
         axios.patch(`${API}/unsold-products/${itemId}`, {
             amount: amount
-        })
+        }, { headers })
         .then((response)=>{setUpdateData(response)})
         .catch((error) => {
             if (error.response) {
@@ -53,7 +57,7 @@ const FormUpdate = ({ itemId, API, setUpdate }) => {
     };
 
     const deleteItem = () => {
-        axios.delete(`${API}/unsold-products/${itemId}`)
+        axios.delete(`${API}/unsold-products/${itemId}`, { headers })
         .then(()=>{
             setUpdate(false)
         })

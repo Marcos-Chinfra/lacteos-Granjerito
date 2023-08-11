@@ -4,7 +4,7 @@ import AppContext from '../context/AppContext';
 import { Link } from 'react-router-dom';
 
 const Step2 = ({ handlePrevStep, API, postId }) => {
-    const { errorAlert } = useContext(AppContext)
+    const { errorAlert, getToken } = useContext(AppContext)
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorQuantity, setErrorQuantity] = useState(false);
     const [getProduct, setGetProduct] = useState(null);
@@ -16,14 +16,20 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
     });
     const form = useRef(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
-        axios.get(`${API}/products`)
+        axios.get(`${API}/products`, { headers })
             .then((response) => {setGetProduct(response.data)});
     }, []);
 
     useEffect(() => {
         if(post && postId){
-            axios.get(`${API}/sales/${postId.id}`)
+            axios.get(`${API}/sales/${postId.id}`, { headers })
             .then((response) => {setListProducts(response.data.GoodsInTransit)});
         }
     }, [post]);
@@ -45,7 +51,7 @@ const Step2 = ({ handlePrevStep, API, postId }) => {
             saleId: postId.id,
             productId: producto,
             amount: quantity
-        })
+        }, { headers })
         .then((response)=>{setPost(response.data)})
         .catch((error) => {
             if (error.response) {

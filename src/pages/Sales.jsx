@@ -8,10 +8,18 @@ import { Link } from 'react-router-dom';
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const Sales = () => {
-    const { setSendId } = useContext(AppContext);
+    const { setSendId, getToken } = useContext(AppContext);
     const [getSales, setGetSales] = useState([]);
     const [getAllSales, setGetAllSales] = useState(null);
-    const [dataChart, setDataChart] = useState({})
+    const [getAllSoldProducts, setGetAllSoldProducts] = useState(null);
+    const [dataPieChart, setDataPieChart] = useState({})
+    const [dataBarChart, setDataBarChart] = useState({})
+
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
 
     const searchSales = (arr) => {
         let sale = arr.filter((item) => item.total === 0 )
@@ -19,19 +27,22 @@ const Sales = () => {
     }
 
     useEffect(() => {
-        axios.get(`${API}/sales`)
-        .then((response) => {searchSales(response.data)})
+        axios.get(`${API}/sales`, { headers })
+        .then((response) => {
+            let sales = response.data;
+            setGetAllSales(sales)
+            searchSales(sales)})
         .catch((err) => console.error(err))
 
-        axios.get(`${API}/sold-products`)
-        .then((response) => {setGetAllSales(response.data)})
+        axios.get(`${API}/sold-products`, { headers })
+        .then((response) => {setGetAllSoldProducts(response.data)})
         .catch((err) => console.error(err))
     }, []);
 
     useEffect(()=>{
         const sold = {};
-        if(getAllSales){
-            getAllSales.forEach(item => {
+        if(getAllSoldProducts){
+            getAllSoldProducts.forEach(item => {
                 const name = item.product.name;
                 const amount = item.amount;
                 if(sold.hasOwnProperty(name)) {
@@ -41,9 +52,24 @@ const Sales = () => {
                 }
             });
         }
-        setDataChart(sold)
+        setDataPieChart(sold)
+    },[getAllSoldProducts]);
+
+    useEffect(()=>{
+        const staffs = {};
+        if(getAllSales){
+            getAllSales.forEach(item => {
+                const name = item.staff.name;
+                const amount = item.total;
+                if(staffs.hasOwnProperty(name)) {
+                    staffs[name] += amount;
+                } else {
+                    staffs[name] = amount;
+                }
+            });
+        }
+        setDataBarChart(staffs)
     },[getAllSales])
-console.log(dataChart)
 
     return (
         <div 
@@ -108,10 +134,10 @@ console.log(dataChart)
             </section>
             <section className='w-full flex mt-5'>
                 <article className='w-1/2'>
-                    <BartChart/>
+                    <BartChart dataBarChart={dataBarChart} title={'Gráfico de producción'}/>
                 </article>
                 <article className='w-1/2'>
-                    <PieChart dataChart={dataChart}/>
+                    <PieChart dataPieChart={dataPieChart} title={'Gráfico de ventas'}/>
                 </article>
             </section>
         </div>

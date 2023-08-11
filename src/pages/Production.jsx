@@ -7,19 +7,24 @@ import ShiftOutput from '../components/ShiftOutput';
 import axios from 'axios';
 
 const Production = () => {
-    // const hideMenu = location.pathname === '/' || location.pathname === '/login-staff'
-    const { sendId, API } = useContext(AppContext);
+    const { sendId, API, getToken } = useContext(AppContext);
     const [get, setGet] = useState(null);
     const [getProducts, setGetProducts] = useState(true);
     const [fabricados, setFabricados] = useState(true);
     const [regresados, setRegresados] = useState(false);
     const [cambiados, setCambiados] = useState(false);
 
+    const apiKey = import.meta.env.VITE_API_KEY
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
         async function getPost() {
-            const response = await axios.get(`${API}/shift-output`);
+            const response = await axios.get(`${API}/shift-output?product=${sendId}`, {headers});
             setGet(response.data);
-            const respuesta = await axios.get(`${API}/products/${sendId}`);
+            const respuesta = await axios.get(`${API}/products/${sendId}`,{headers});
             setGetProducts(respuesta.data)
         }
         getPost();

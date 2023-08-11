@@ -5,30 +5,35 @@ import FormUpdate from '../components/FormUpdate';
 import FormUpdateChanges from '../components/FormUpdateChanges';
 
 const SoldProducts = ({ handlePrevStep, API, Id }) => {
-    const { saveAlert, errorAlert } = useContext(AppContext);
+    const { saveAlert, errorAlert, getToken } = useContext(AppContext);
     const [total, setTotal] = useState(null)
     const [getProduct, setGetProduct] = useState(null);
     const [itemId, setItemId] = useState(null);
     const [update, setUpdate] = useState(false);
     const [updateChanges, setUpdateChanges] = useState(null);
     const [totalData ,setTotalData] = useState(null);
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
 
     useEffect(() => {
-        axios.get(`${API}/sales/${Id}`)
+        axios.get(`${API}/sales/${Id}`, { headers })
             .then((response) => {
                 setGetProduct(response.data);
             });
     }, []);
 
     useEffect(() => {
-        axios.get(`${API}/sales/${Id}`)
+        axios.get(`${API}/sales/${Id}`, { headers })
             .then((response) => {
                 setGetProduct(response.data);
             });
     }, [update]);
 
     useEffect(() => {
-        axios.get(`${API}/sales/${Id}`)
+        axios.get(`${API}/sales/${Id}`, { headers })
             .then((response) => {
                 setGetProduct(response.data);
             });
@@ -71,7 +76,7 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
     const updateTotal = () => {
         axios.patch(`${API}/sales/${Id}`, {
             total: total
-        })
+        }, { headers })
         .then((response)=>{setTotalData(response)})
         .catch((error) => {
             if (error.response) {

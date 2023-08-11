@@ -4,7 +4,7 @@ import AppContext from '../context/AppContext';
 import { Link } from 'react-router-dom';
 
 const Step1 = ({ handleNextStep, API, setPostId }) => {
-    const { errorAlert } = useContext(AppContext);
+    const { errorAlert, getToken } = useContext(AppContext);
     const [errorName, setErrorName] = useState(false);
     const [errorRoute, setErrorRoute] = useState(false);
     const [errorLastName, setErrorLastName] = useState(false);
@@ -13,11 +13,17 @@ const Step1 = ({ handleNextStep, API, setPostId }) => {
     const [getRouter, setGetRouter] = useState(null);
     const form = useRef(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
-        axios.get(`${API}/staff`)
+        axios.get(`${API}/staff`, { headers })
             .then((response) => {setGetStaff(response.data)});
 
-        axios.get(`${API}/routes`)
+        axios.get(`${API}/routes`, { headers })
             .then((response) => {setGetRouter(response.data)});
     }, []);
 
@@ -42,7 +48,7 @@ const Step1 = ({ handleNextStep, API, setPostId }) => {
                 staffId: staff,
                 routeId: root,
                 total: 0
-            })
+            }, { headers })
             .then((response) => {
                 setPost(response);
                 setPostId(response.data);

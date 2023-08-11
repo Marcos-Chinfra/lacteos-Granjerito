@@ -4,8 +4,8 @@ import { Pie } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const PieChart = ({ dataChart }) => {
-    const datos = Object.keys(dataChart)
+const PieChart = ({ dataPieChart, title }) => {
+    const datos = Object.keys(dataPieChart)
     const totalItems = datos.length;
 
     const backgroundColors = Array.from({ length: totalItems }, (_, index) => {
@@ -14,11 +14,11 @@ const PieChart = ({ dataChart }) => {
     });
 
     const data = {
-        labels: Object.keys(dataChart),
+        labels: Object.keys(dataPieChart),
         datasets: [
             {
                 label: 'Regresos de los productos',
-                data: Object.values(dataChart),
+                data: Object.values(dataPieChart),
                 borderColor: backgroundColors,
                 borderWidth: 1,
                 backgroundColor: backgroundColors
@@ -45,7 +45,7 @@ const PieChart = ({ dataChart }) => {
 
     return (
         <div className='w-full max-w-pieChartInventory mx-auto min-w-chart rounded bg-gray-50 shadow p-2'>
-            <h2 className='text-center'>Productos fabricados</h2>
+            <h2 className='text-center'>{`${title}`}</h2>
             <Pie data={data} options={options} />
         </div>
     );

@@ -5,9 +5,9 @@ import AppContext from '../context/AppContext';
 import PieChart from '../components/PieChart';
 
 const InventoryUnSold = () => {
-    const {SyncLoader, API, sortDirection, handleSortChange} = useContext(AppContext);
+    const {SyncLoader, API, sortDirection, handleSortChange, getToken} = useContext(AppContext);
     const [getUnSold, setGetUnSold] = useState(null);
-    const [dataChart, setDataChart] = useState({})
+    const [dataPieChart, setDataPieChart] = useState({})
 
     const override =  {
         display: "flex",
@@ -18,8 +18,14 @@ const InventoryUnSold = () => {
         height: "60px"
     };
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(()=>{
-        axios.get(`${API}/unsold-products`)
+        axios.get(`${API}/unsold-products`, { headers })
             .then((response)=>{setGetUnSold(handleSortChange(response.data))})
             .catch((err)=>{console.error(err)})
         
@@ -39,7 +45,7 @@ const InventoryUnSold = () => {
                 }
             });
         }
-        setDataChart(unSold)
+        setDataPieChart(unSold)
     },[getUnSold]);
 
 
@@ -69,7 +75,7 @@ const InventoryUnSold = () => {
                 }
             </section>
             <article className='w-full md:w-1/2 md:px-3 mt-5 '>
-                <PieChart  dataChart={dataChart}/>
+                <PieChart  dataPieChart={dataPieChart} title={'Productos regresados'}/>
             </article>
         </main>
     );

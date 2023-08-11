@@ -1,22 +1,28 @@
 import React, {useState, useEffect, useContext, useRef} from 'react'; 
 import axios from 'axios';
 
-const FormUpdateChanges = ({ itemId, API, setUpdateChanges}) => {
+const FormUpdateChanges = ({ itemId, API, setUpdateChanges, getToken}) => {
 
     const [getRecord, setGetRecord] = useState(null);
     const [amount, setAmount] = useState(null);
     const [updateData, setUpdateData] = useState(null)
     const form = useRef(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
-        axios.get(`${API}/returned-products/${itemId}`)
+        axios.get(`${API}/returned-products/${itemId}`, { headers })
             .then((response) => {
                 setGetRecord(response.data);
             });
     }, []);
 
     useEffect(() => {
-        axios.get(`${API}/returned-products/${itemId}`)
+        axios.get(`${API}/returned-products/${itemId}`, { headers })
             .then((response) => {
                 setGetRecord(response.data);
             });
@@ -25,7 +31,7 @@ const FormUpdateChanges = ({ itemId, API, setUpdateChanges}) => {
     const updateItem = (amount) => {
         axios.patch(`${API}/returned-products/${itemId}`, {
             amount: amount
-        })
+        }, { headers })
         .then((response)=>{setUpdateData(response.data)})
         .catch((error) => {
             if (error.response) {
@@ -39,7 +45,7 @@ const FormUpdateChanges = ({ itemId, API, setUpdateChanges}) => {
     };
 
     const deleteItem = () => {
-        axios.delete(`${API}/returned-products/${itemId}`)
+        axios.delete(`${API}/returned-products/${itemId}`, { headers })
         .then(()=>{
             alert("Product deleted!");
             setUpdateChanges(false)

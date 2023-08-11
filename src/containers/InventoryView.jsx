@@ -5,20 +5,22 @@ import AppContext from '../context/AppContext';
 import InventoryTable from '../components/InventoryTable';
 
 const InventoryView = ({API}) => {
-    const { searchProduct, successAlert, errorAlert, SyncLoader, sortDirection, handleSortChange, getToken } = useContext(AppContext)
+    const { searchProduct, successAlert, errorAlert, SyncLoader, sortDirection, handleSortChange, getToken, handleSort } = useContext(AppContext)
     const [getProduct, setGetProduct] = useState(null);
     const [getInventory, setGetInventory] = useState(null);
-    const [post ,setPost] = useState(null);
+    const [post, setPost] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorIncomings, setErrorIncomings] = useState(false);
     const [errorWithdrawals, setErrorWithdrawals] = useState(false);
     const [errorErrorStock, setErrorStock] = useState(false);
+    const [dataBarChart, setDataBarChart] = useState({})
     const [inputData, setInputData] = useState({
         product: '',
         incomings: '',
         withdrawals: '',
         stock: ''
     });
+
     const form = useRef(null);
 
     const override =  {
@@ -29,20 +31,21 @@ const InventoryView = ({API}) => {
         margin: "20px 0",
         height: "60px"
     };
-    console.log(getToken)
-    useEffect(()=>{
-        const headers = {
-            'API': '121319',
-            'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTY5MTcyNDQ1OCwiZXhwIjoxNjkxNzI0NzU4fQ.8Iya8Y2_QrRpBDiV5K6i-e5-YA2xR_9N5CGfovaaAYE`
-        }
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
 
+    useEffect(()=>{
         axios.get(`${API}/inventory`, { headers })
-            .then((response)=>{setGetInventory(handleSortChange(response.data))})
+            .then((response)=>{setGetInventory(handleSort(response.data))})
             .catch((err)=>{console.error(err)})
 
         axios.get(`${API}/products`, { headers })
             .then((response) => {setGetProduct(response.data)});
-    },[]);
+    },[post]);
+
 
     useEffect(() => {
         if(post){
@@ -54,15 +57,33 @@ const InventoryView = ({API}) => {
         }
     }, [post]);
 
+
+    useEffect(()=>{
+        const production = {};
+        if(getInventory){
+            getInventory.forEach(item => {
+                const name = item.product.name;
+                const amount = item.incomings;
+
+                if(production.hasOwnProperty(name)) {
+                    production[name] += amount;
+                } else {
+                    production[name] = amount;
+                }
+            });
+        }
+        setDataBarChart(production)
+    },[getInventory]);
+
     const createdRecord = (producto, entradas, salidas, save )=> {
-        let item = searchProduct(producto, getProduct)
+        let item = searchProduct(producto, getProduct);
 
         axios.post(`${API}/inventory`, {
             productId: item,
             incomings: entradas,
             withdrawals: salidas,
             stock: save
-        })
+        }, { headers })
         .then((response)=>{setPost(response)})
         .catch((error) => {
             if (error.response) {
@@ -95,7 +116,6 @@ const InventoryView = ({API}) => {
             'withdrawals': formData.get('withdrawals'),
             'stock': formData.get('stock'),
         }
-        console.log(record)
         if(record.product === ''){
             setErrorProduct(true)
         }
@@ -159,7 +179,7 @@ const InventoryView = ({API}) => {
             </section>
             
             <article className='w-full md:w-1/2 md:px-3 mt-5 md:mt-0'>
-                <BartChart />
+                <BartChart dataBarChart={dataBarChart} title={'Gráfico de producción'} />
                 <form 
                     id='formulario' 
                     ref={form}

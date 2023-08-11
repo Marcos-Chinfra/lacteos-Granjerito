@@ -3,12 +3,38 @@ import { SyncLoader }  from "react-spinners";
 import Swal from 'sweetalert2';
 
 const useSalesHook = () => {
-    
-    const [sortDirection, setSortDirection] = useState('asc');
-    const [getToken, setGetToken ] = useState(null)
+    const [sortDirection, setSortDirection] = useState('desc');
+    const [getToken, setGetToken ] = useState(() => {
+        const storedToken = localStorage.getItem('authToken');
+        return storedToken || '';
+    });
     const [sendId, setSendId] = useState(null);
-    const [loader, setLoader] = useState(true);
+    const [account, setAccount] = useState(() => {
+        const storedAccount = localStorage.getItem('accountUser');
+        return storedAccount || {};
+    });
     const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1";
+
+    const saveToken = (newToken) => {
+        localStorage.setItem('authToken', newToken);
+        setGetToken(newToken)
+    }
+
+    const saveAccount = (newToken) => {
+        const newAccount = JSON.stringify(newToken)
+        localStorage.setItem('accountUser', newAccount);
+        setAccount(newAccount)
+    }
+
+    const removeToken = () => {
+        localStorage.removeItem('authToken');
+        setGetToken('')
+    }
+
+    const removeAccount = () => {
+        localStorage.removeItem('accountUser');
+        setAccount({})
+    }
 
     const searchProduct = (name, arr) => { 
         try{
@@ -85,6 +111,7 @@ const useSalesHook = () => {
         })
     };
 
+
     const handleSortChange = (arr) => {
         const newSortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
         setSortDirection(newSortDirection);
@@ -97,16 +124,28 @@ const useSalesHook = () => {
         return sorted
     };
 
+    const handleSort = (arr) => {
+        const sorted = arr.sort((a, b) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            return  dateB - dateA 
+        });
+        setSortDirection('desc')
+        return sorted
+    };
+
 
     return {
         sendId,
-        loader,
         API,
         sortDirection,
         getToken, 
-        setGetToken, 
+        account, 
+        handleSort,
+        saveAccount,
+        removeToken,
+        saveToken, 
         SyncLoader,
-        setLoader,
         setSendId,
         searchProduct,
         saveAlert,

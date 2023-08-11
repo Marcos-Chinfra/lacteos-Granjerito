@@ -5,9 +5,9 @@ import ReturnedTable from '../components/ReturnedTable';
 import PieChart from '../components/PieChart';
 
 const InventoryReturned = ({API}) => {
-    const {SyncLoader, handleSortChange, sortDirection} = useContext(AppContext)
+    const {SyncLoader, handleSortChange, sortDirection, getToken} = useContext(AppContext)
     const [getReturned, setGetReturned] = useState(null);
-    const [dataChart, setDataChart] = useState({})
+    const [dataPieChart, setDataPieChart] = useState({})
 
     const override =  {
         display: "flex",
@@ -18,8 +18,14 @@ const InventoryReturned = ({API}) => {
         height: "60px"
     };
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(()=>{
-        axios.get(`${API}/returned-products`)
+        axios.get(`${API}/returned-products`, { headers })
             .then((response)=>{setGetReturned(handleSortChange(response.data))})
             .catch((err)=>{console.error(err)})
     },[]);
@@ -38,11 +44,10 @@ const InventoryReturned = ({API}) => {
                 }
             });
         }
-        setDataChart(unSold)
+        setDataPieChart(unSold)
 
     },[getReturned])
 
-    console.log(getReturned)
 
     return (
         <main className='w-full flex flex-col md:flex-row '>
@@ -72,7 +77,7 @@ const InventoryReturned = ({API}) => {
                 }
             </section>
             <article className='w-full md:w-1/2 md:px-3 mt-5' >
-                <PieChart dataChart={dataChart}/>
+                <PieChart dataPieChart={dataPieChart} title={'Productos cambiados'}/>
             </article>
         </main>
     );

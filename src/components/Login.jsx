@@ -1,9 +1,12 @@
 import React, {useRef, useContext, useState, useEffect} from 'react';
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import AppContext from '../context/AppContext';
 
 const Login = () => {
-    const { getToken, setGetToken, API, errorAlert, successAlert } = useContext(AppContext);
+    const navigate = useNavigate();
+    const { API, errorAlert, saveToken, saveAccount } = useContext(AppContext);
     const [post, setPost] = useState(null)
     const [errorName, setErrorName] = useState(false);
     const [errorPassword, setErrorPassword] = useState(false);
@@ -16,12 +19,21 @@ const Login = () => {
     useEffect(() => {
         if(post){
             if(post.status === 200){
-                successAlert('Todo bien!!', 'El registro se a guardado con éxito.')
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: `Bienvenido ${post.data.user.name}`,
+                    showConfirmButton: false,
+                    timer: 1500
+                }).then(()=>{
+                    navigate('/inventory');
+                })
             }else if(post.status !== 200){
-                errorAlert('No se ha registrado en el inventario.');
+                errorAlert('Revisa tus datos y vuelve a intentarlo.');
             }
         }
     }, [post]);
+
 
     const handleInput = (e) => {
         const { name, value } = e.target;
@@ -43,8 +55,9 @@ const Login = () => {
         }, { headers })
         .then((response)=>{
             let data = response
-            setGetToken(data.data.token)
+            saveToken(data.data.token)
             setPost(data)
+            saveAccount(data.data.user)
         })
         .catch((error) => {
             if (error.response) {
@@ -85,8 +98,7 @@ const Login = () => {
             startLogin(record.name, record.password)
         }
     }
-    console.log(getToken)
-    console.log(post)
+
 
     return (
         <div className="mx-auto w-4/6 max-w-login min-w-log px-4 py-8 lg:py-16 sm:px-6 lg:px-8 lg:mt-10 ">

@@ -4,7 +4,7 @@ import axios from "axios";
 
 const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
     
-    const { searchProduct, successAlert, errorAlert } = useContext(AppContext);
+    const { searchProduct, successAlert, errorAlert, getToken } = useContext(AppContext);
     const [post, setPost] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorAmount, setErrorAmount] = useState(false); 
@@ -16,8 +16,14 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
 
     const form = useRef(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
-        axios.get(`${API}/products`)
+        axios.get(`${API}/products`, { headers })
             .then((response) => {
                 setGetProduct(response.data);
             });
@@ -40,7 +46,7 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
             saleId: Id,
             productId: producto,
             amount: amount
-        })
+        }, { headers })
         .then((response)=>{setPost(response)})
         .catch((error) => {
             if (error.response) {

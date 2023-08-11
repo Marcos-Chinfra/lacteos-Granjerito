@@ -4,17 +4,23 @@ import {Link} from 'react-router-dom';
 import axios  from 'axios';
 
 const ProductsList = () => {
-    const { sendId ,setSendId, API } = useContext(AppContext);
+    const { sendId ,setSendId, API, getToken } = useContext(AppContext);
     const [ product, setProduct ] = useState(null);
     const [categoría, setCategoría] = useState(null);
 
+    const apiKey = import.meta.env.VITE_API_KEY
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
     useEffect(() => {
-    axios.get(`${API}/products`)
+    axios.get(`${API}/products`, { headers })
         .then((response) => {
             setProduct(response.data);
         });
 
-        axios.get(`${API}/categories`)
+        axios.get(`${API}/categories`, { headers })
         .then((response) => {
             setCategoría(response.data);
         });
@@ -43,12 +49,12 @@ const ProductsList = () => {
         const category = searchCategory(valorSeleccionado, categoría);
 
         if(valorSeleccionado === 'All'){
-            axios.get(`${API}/products`)
+            axios.get(`${API}/products`, { headers })
             .then((response) => {
                 setProduct(response.data);
             });
         }else{
-            axios.get(`${API}/products?category=${category}`)
+            axios.get(`${API}/products?category=${category}`, { headers })
             .then((response) => {
                 setProduct(response.data);
             });

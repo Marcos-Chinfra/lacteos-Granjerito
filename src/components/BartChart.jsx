@@ -24,16 +24,16 @@ ChartJS.register(
     Filler
 )
 
-const BartChart = () => {
+const BartChart = ({ dataBarChart, title }) => {
         const data = {
-            labels: ['Edin', 'Ruben', 'Jose'],
+            labels: Object.keys(dataBarChart),
             datasets: [
                 {
                     label: 'Ventas por Mes',
-                    data: [1200, 1909, 3000],
-                    borderColor: 'rgba(75, 192, 192, 1)',
+                    data: Object.values(dataBarChart),
+                    borderColor: '#11aaff',
                     borderWidth: 1,
-                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    backgroundColor: 'rgb(240, 246, 255)',
                 },
             ],
         };
@@ -48,7 +48,7 @@ const BartChart = () => {
         
         return (
             <div className='w-full max-w-tables mx-auto min-w-chart rounded bg-gray-50 shadow p-2'>
-                <h2>Gráfico de Líneas</h2>
+                <h2 className='text-center'>{`${title}`}</h2>
                 <Bar data={data} options={options} />
             </div>
         );
