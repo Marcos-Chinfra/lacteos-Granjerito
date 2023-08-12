@@ -10,7 +10,7 @@ const InventoryShifts = () => {
     const [getProduct, setGetProduct] = useState(null);
     const [errorProduct, setErrorProduct] = useState(false);
     const [errorQuantity, setErrorQuantity] = useState(false);
-    const [getShifts, setGetShifts] = useState(null);
+    const [geShiftOutput, setGeShiftOutput] = useState(null);
     const [dataPieChart, setDataPieChart] = useState({})
     const [inputData, setInputData] = useState({
         product: '',
@@ -24,25 +24,24 @@ const InventoryShifts = () => {
         'Authorization': `Bearer ${getToken}`
     }
 
+    const override =  {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "10px",
+        margin: "20px 0",
+        height: "60px"
+    };
 
     useEffect(() => {
         axios.get(`${API}/shift-output`, { headers })
-            .then((response) => {
-                setGetShifts(handleSort(response.data));
-            })
+            .then((response) => {setGeShiftOutput(handleSort(response.data));})
             .catch((err)=>{console.error(err)})
 
         axios.get(`${API}/products`, { headers })
             .then((response) => {setGetProduct(response.data)});
-    },[]);
-
-    useEffect(() => {
-        if(getShifts){
-            axios.get(`${API}/shift-output`, { headers })
-            .then((response) => {setGetShifts(handleSort(response.data));})
-            .catch((err)=>{console.error(err)})
-        }
     },[post]);
+
 
     useEffect(() => {
         if(post){
@@ -55,30 +54,21 @@ const InventoryShifts = () => {
     }, [post]);
 
     useEffect(()=>{
-        const unSold = {};
-        if(getShifts){
-            getShifts.forEach(item => {
+        const shifts = {};
+        if(geShiftOutput){
+            geShiftOutput.forEach(item => {
                 const name = item.product.name;
                 const amount = item.amount;
 
-                if(unSold.hasOwnProperty(name)) {
-                    unSold[name] += amount;
+                if(shifts.hasOwnProperty(name)) {
+                    shifts[name] += amount;
                 } else {
-                    unSold[name] = amount;
+                    shifts[name] = amount;
                 }
             });
         }
-        setDataPieChart(unSold)
-    },[getShifts])
-
-    const override =  {
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "10px",
-        margin: "20px 0",
-        height: "60px"
-    };
+        setDataPieChart(shifts)
+    },[geShiftOutput])
 
 
     const handleInput = (e) => {
@@ -142,11 +132,11 @@ const InventoryShifts = () => {
     return (
         <main className='w-full flex flex-col md:flex-row mt-4'>
             <section className='w-full md:w-1/2 md:px-4 '>
-                { getShifts 
+                { geShiftOutput 
                     ?   
                         <div className='max-w-tables mx-auto relative overflow-x-auto'>
                             <div className='w-full flex justify-center my-2'>
-                                <button className='absolute left-0' onClick={()=>handleSortChange(getShifts)}>
+                                <button className='absolute left-0' onClick={()=>handleSortChange(geShiftOutput)}>
                                     {sortDirection === 'asc' 
                                     ? 
                                         <i className="fa-solid fa-arrow-up-long text-lg text-side hover:text-liner-color"></i> 
@@ -159,7 +149,7 @@ const InventoryShifts = () => {
                                 </h1>
                                 <a href="#formulario" className='absolute top-0 right-0 text-xs py-1 px-2 bg-created rounded text-white md:hidden'> Registrar</a>
                             </div>
-                            <Manufactured getShifts={getShifts} /> 
+                            <Manufactured geShiftOutput={geShiftOutput} /> 
                         </div>
                     :
                         <SyncLoader color='#11aaff'  cssOverride={override} />

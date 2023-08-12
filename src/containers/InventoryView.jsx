@@ -147,6 +147,7 @@ const InventoryView = ({API}) => {
         }
     }
 
+
     return (
         <main className='w-full flex flex-col md:flex-row '>        
             <section className='w-full md:w-1/2 md:px-4  '>
@@ -221,7 +222,7 @@ const InventoryView = ({API}) => {
                         name='stock'
                         type="number"
                         id="Stock"
-                        placeholder="Stock"
+                        placeholder={`${inputData.withdrawals ?  inputData.incomings - inputData.withdrawals : 'Stock'}`}
                         value={inputData.stock}
                         onChange={handleInput}
                         className={`w-full mt-2 p-2 lg:p-3 rounded-md  border shadow-sm text-sm sm:text-md outline-none ${errorErrorStock ? 'border-Error' : 'border-gray-200'}`}

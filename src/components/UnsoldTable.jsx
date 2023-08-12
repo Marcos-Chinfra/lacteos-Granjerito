@@ -1,7 +1,5 @@
 import React  from 'react';
 
-
-
 const UnsoldTable = ({getUnSold}) => {
 
     return (

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Manufactured = ({ getShifts }) => {
+const Manufactured = ({ geShiftOutput }) => {
 
     return (
         <table className="w-full border border-gray-200 shadow rounded" >
@@ -13,8 +13,8 @@ const Manufactured = ({ getShifts }) => {
             </tr>
         </thead>
         <tbody>
-            {getShifts && 
-                getShifts.map((item)=>(
+            {geShiftOutput && 
+                geShiftOutput.map((item)=>(
                     <tr key={item.id}>
                         <td className="px-2 py-1 text-left text-text-color text-sm font-normal">
                             {`${item.product.name}`}

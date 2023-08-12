@@ -3,17 +3,24 @@ import axios from 'axios';
 import AppContext from '../context/AppContext'
 
 const Staff = () => {
-    const {API} = useContext(AppContext)
-    const [ getStaff, setGetStaff] = useState(null)
+    const {API, getToken} = useContext(AppContext);
+    const [ getStaff, setGetStaff] = useState(null);
+
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
 
     useEffect(()=>{
-        axios.get(`${API}/staff`)
+        axios.get(`${API}/staff`, { headers })
             .then((response) => {setGetStaff(response.data)})
             .catch((err)=>console.error(err))
     },[])
 
     return (
-        <div className='w-screen h-4/5 flex p-10 items-start'>
+        <main className='w-screen h-4/5 flex p-10 items-start'>
+            <section className='w-full flex flex-col lg:flex-row  items-center gap-7'>
             <table className="border-collapse border w-full" >
                 <caption>Empleados</caption>
                 <thead>
@@ -27,7 +34,7 @@ const Staff = () => {
                 <tbody>
                     {getStaff &&
                         getStaff.map((item)=>(
-                        <tr>
+                        <tr key={item.id}>
                             <td className="p-2">{item.name}</td>
                             <td className="p-2">{item.lastName}</td>
                             <td className="p-2">{item.phone}</td>
@@ -37,7 +44,14 @@ const Staff = () => {
                     }
                 </tbody>
             </table>
-        </div>
+            <button   
+                className='flex items-center justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
+                >
+                    Registrar
+            </button>
+            </section>
+
+        </main>
     );
 }
 

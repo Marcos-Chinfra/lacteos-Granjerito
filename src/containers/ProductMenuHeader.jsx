@@ -48,12 +48,12 @@ const ProductMenuHeader = ({ children, getProducts, handleShiftOutput, handleRet
 
                     </main>
 
-                    <button className='bg-white rounded text-xs sm:text-base sm:px-4  w-1/5 max-h-14 min-h-buttons border border-side text-side shadow hover:bg-light-blue' >
-                        Add record
+                    <button className='bg-white rounded text-xs sm:text-base sm:px-4  w-1/5 max-h-14 min-h-buttons border border-Error text-Error shadow hover:bg-return' >
+                        Eliminar
                     </button>
 
                     <button className='bg-white text-xs sm:text-base sm:px-4 rounded  w-1/5 max-h-14 min-h-buttons border border-side text-side shadow  hover:bg-light-blue'>
-                        Update
+                        Editar
                     </button>
                 </section>
 

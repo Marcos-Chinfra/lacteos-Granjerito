@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
 
 const Sales = () => {
-    const { setSendId, getToken } = useContext(AppContext);
+    const { setSendId, getToken, handleSort } = useContext(AppContext);
     const [getSales, setGetSales] = useState([]);
     const [getAllSales, setGetAllSales] = useState(null);
     const [getAllSoldProducts, setGetAllSoldProducts] = useState(null);
@@ -23,7 +23,7 @@ const Sales = () => {
 
     const searchSales = (arr) => {
         let sale = arr.filter((item) => item.total === 0 )
-        setGetSales(sale)
+        setGetSales(handleSort(sale))
     }
 
     useEffect(() => {
@@ -73,7 +73,7 @@ const Sales = () => {
 
     return (
         <div 
-            className='w-screen  flex flex-col p-5 mt-6 lg:mt-0 lg:p-10 items-start overflow-y-auto'
+            className='w-screen flex flex-col p-5 mt-6 lg:mt-0 lg:p-10 items-start overflow-y-auto'
         >
             <section 
                 className='w-full flex flex-col lg:flex-row  items-center gap-7'
@@ -132,11 +132,12 @@ const Sales = () => {
                         Registrar nueva venta
                 </Link>
             </section>
-            <section className='w-full flex mt-5'>
-                <article className='w-1/2'>
+
+            <section className='w-full flex mt-5 flex-col md:flex-row '>
+                <article className='w-full md:w-1/2 mx-auto p-5'>
                     <BartChart dataBarChart={dataBarChart} title={'Gráfico de producción'}/>
                 </article>
-                <article className='w-1/2'>
+                <article className='w-full md:w-1/2 mx-auto p-5'>
                     <PieChart dataPieChart={dataPieChart} title={'Gráfico de ventas'}/>
                 </article>
             </section>

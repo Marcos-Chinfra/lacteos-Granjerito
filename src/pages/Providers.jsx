@@ -1,30 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState, useContext} from 'react';
+import axios from 'axios';
+import AppContext from '../context/AppContext'
 
 const Providers = () => {
+    const {API, getToken} = useContext(AppContext);
+    const [ getProviders, setGetProviders] = useState(null);
+
+    const apiKey = import.meta.env.VITE_API_KEY;
+    const headers = {
+        'API': apiKey,
+        'Authorization': `Bearer ${getToken}`
+    }
+
+    useEffect(()=>{
+        axios.get(`${API}/providers`, { headers })
+            .then((response) => {setGetProviders(response.data)})
+            .catch((err)=>console.error(err))
+    },[]);
+
     return (
-        <div className='w-screen h-4/5 flex p-10 items-start'>
-            <table className="border-collapse border w-full" >
+        <main className='w-screen h-4/5 flex p-10 items-start'>
+            <section className='w-full flex flex-col lg:flex-row  items-center gap-7'>
+            <table className=" w-3/4 p-2 border-collapse border bg-orange-50 border-gray-200" >
                 <thead>
                     <tr>
-                        <th className="p-2 text-left">id</th>
-                        <th className="p-2 text-left">name</th>
-                        <th className="p-2 text-left">company</th>
+                        <th className="p-2 text-left">Nombre</th>
+                        <th className="p-2 text-left">Jornada</th>
+                        <th className="p-2 text-left">Cantidad (litros)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="p-2">Celda 1</td>
-                        <td className="p-2">Celda 2</td>
-                        <td className="p-2">Celda 3</td>
-                    </tr>
-                    <tr>
-                        <td className="p-2">Celda 4</td>
-                        <td className="p-2">Celda 5</td>
-                        <td className="p-2">Celda 6</td>
-                    </tr>
+                    {getProviders &&
+                        getProviders.map((item)=>(
+                            <tr key={item.id}>
+                                <td className="p-2">{item.name}</td>
+                                <td className="p-2">{item.company}</td>
+                                <td className="p-2">{item.createdAt}</td>
+                            </tr>
+                        ))
+
+                    }
                 </tbody>
             </table>
-        </div>
+            <button   
+                    className='flex items-center justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
+                    >
+                        Registrar 
+            </button>
+            </section>
+
+        </main>
     );
 }
 
