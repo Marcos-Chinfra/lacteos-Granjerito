@@ -1,0 +1,3 @@
+[build]
+    publish = "dist"
+    commanf = "npm run build"
