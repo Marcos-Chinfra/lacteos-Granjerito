@@ -26,6 +26,7 @@ export default {
         updateForm:"307px",
         login: "480px",
         tables: "500px",
+        modalForm: "650px",
         pieChartInventory: "440px",
         formInventory: "400px",
         loginLogo:"765px",

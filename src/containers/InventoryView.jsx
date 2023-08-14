@@ -5,7 +5,16 @@ import AppContext from '../context/AppContext';
 import InventoryTable from '../components/InventoryTable';
 
 const InventoryView = ({API}) => {
-    const { searchProduct, successAlert, errorAlert, SyncLoader, sortDirection, handleSortChange, getToken, handleSort } = useContext(AppContext)
+    const { 
+        searchProduct, 
+        successAlert, 
+        errorAlert, 
+        SyncLoader, 
+        sortDirection, 
+        handleSortChange, 
+        getToken, 
+        handleSort 
+    } = useContext(AppContext)
     const [getProduct, setGetProduct] = useState(null);
     const [getInventory, setGetInventory] = useState(null);
     const [post, setPost] = useState(null);

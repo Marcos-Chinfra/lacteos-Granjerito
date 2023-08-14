@@ -121,6 +121,7 @@ const Login = () => {
                             <input
                                 type="text"
                                 name='name'
+                                autoComplete='name'
                                 id="name"
                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm outline-gray-300"
                                 placeholder="Coloca tu cuenta"
@@ -137,6 +138,7 @@ const Login = () => {
                             <input
                                 type="password"
                                 name='password'
+                                autoComplete="current-password"
                                 id="password"
                                 className="w-full rounded-lg border-gray-200 p-4 pe-12 text-sm shadow-sm outline-gray-300"
                                 placeholder="Enter password"

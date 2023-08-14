@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ProductsRegister from '../components/modalsComponents/ProductsRegister'
 import AppContext from '../context/AppContext';
 import {Link} from 'react-router-dom';
 import axios  from 'axios';
@@ -6,6 +7,7 @@ import axios  from 'axios';
 const ProductsList = () => {
     const { setSendId, API, getToken, SyncLoader } = useContext(AppContext);
     const [ product, setProduct ] = useState(null);
+    const [ register, setRegister ] = useState(false);
     const [categoría, setCategoría] = useState(null);
 
     const apiKey = import.meta.env.VITE_API_KEY
@@ -34,7 +36,7 @@ const ProductsList = () => {
             setCategoría(response.data);
         });
 
-    }, []);
+    }, [register]);
 
 
 
@@ -71,6 +73,14 @@ const ProductsList = () => {
 
     };
 
+    const ModalIsOpen = () => {
+        setRegister(true)
+    }
+
+    const ModalOnClose = () => {
+        setRegister(false)
+    }
+
 
     return (
         <div className='h-full w-full lg:w-4/5 flex p-10 overflow-y-auto flex-col '>
@@ -85,7 +95,8 @@ const ProductsList = () => {
                     <option value="Yogurts">Yogurts</option>
                     <option value="Varios">Varios</option>
                 </select>
-                <button   
+                <button
+                    onClick={ModalIsOpen}
                     className='flex items-center absolute top-0 right-0 justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
                 >
                     Registrar
@@ -113,6 +124,9 @@ const ProductsList = () => {
                 : 
                 <SyncLoader color='#11aaff'  cssOverride={override}/>}
             </main>
+            { register &&
+                <ProductsRegister isOpen={register}   onClose={ModalOnClose}/>
+            }
         </div>
     );
 }
