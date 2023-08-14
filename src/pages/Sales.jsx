@@ -3,6 +3,7 @@ import axios from "axios";
 import BartChart from "../components/BartChart";
 import PieChart from "../components/PieChart";
 import AppContext from '../context/AppContext';
+import SaleTable from '../components/SaleTable';
 import { Link } from 'react-router-dom';
 
 const API = "https://powerful-scrubland-84047-e2a369138362.herokuapp.com/api/v1"
@@ -12,6 +13,7 @@ const Sales = () => {
     const [getSales, setGetSales] = useState([]);
     const [getAllSales, setGetAllSales] = useState(null);
     const [getAllSoldProducts, setGetAllSoldProducts] = useState(null);
+    const [saleCompleted, setSaleCompleted] = useState(null)
     const [dataPieChart, setDataPieChart] = useState({})
     const [dataBarChart, setDataBarChart] = useState({})
 
@@ -26,12 +28,20 @@ const Sales = () => {
         setGetSales(handleSort(sale))
     }
 
+    const searchCompleteSales = (arr) => {
+        let record = arr.filter((item) => item.total !== 0 )
+        setSaleCompleted(handleSort(record))
+    }
+
     useEffect(() => {
         axios.get(`${API}/sales`, { headers })
         .then((response) => {
             let sales = response.data;
             setGetAllSales(sales)
-            searchSales(sales)})
+            searchSales(sales)
+            searchCompleteSales(sales)
+        })
+
         .catch((err) => console.error(err))
 
         axios.get(`${API}/sold-products`, { headers })
@@ -73,7 +83,7 @@ const Sales = () => {
 
     return (
         <div 
-            className='w-screen flex flex-col p-5 mt-6 lg:mt-0 lg:p-10 items-start overflow-y-auto'
+            className='w-screen flex flex-col pt-5 px-5 mt-6 lg:mt-0 lg:p-10 items-start overflow-y-auto'
         >
             <section 
                 className='w-full flex flex-col lg:flex-row  items-center gap-7'
@@ -140,6 +150,10 @@ const Sales = () => {
                 <article className='w-full md:w-1/2 mx-auto p-5'>
                     <PieChart dataPieChart={dataPieChart} title={'Gráfico de ventas'}/>
                 </article>
+            </section>
+
+            <section className='w-5/6 my-5  mx-auto  max-w-loginLogo'>
+                <SaleTable saleCompleted={saleCompleted}/>
             </section>
         </div>
     );

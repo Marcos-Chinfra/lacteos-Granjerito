@@ -1,10 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react';
 import axios from 'axios';
-import AppContext from '../context/AppContext'
+import AppContext from '../context/AppContext';
+import ProviderRegister from '../components/modalsComponents/ProviderRegister';
 
 const Providers = () => {
     const {API, getToken} = useContext(AppContext);
     const [ getProviders, setGetProviders] = useState(null);
+    const [register, setRegister] = useState(false)
 
     const apiKey = import.meta.env.VITE_API_KEY;
     const headers = {
@@ -16,7 +18,15 @@ const Providers = () => {
         axios.get(`${API}/providers`, { headers })
             .then((response) => {setGetProviders(response.data)})
             .catch((err)=>console.error(err))
-    },[]);
+    },[register]);
+
+    const ModalIsOpen = () => {
+        setRegister(true)
+    }
+
+    const ModalOnClose = () => {
+        setRegister(false)
+    }
 
     return (
         <main className='w-screen h-4/5 flex p-10 items-start'>
@@ -43,12 +53,15 @@ const Providers = () => {
                 </tbody>
             </table>
             <button   
+                    onClick={ModalIsOpen}
                     className='flex items-center justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
                     >
                         Registrar 
             </button>
             </section>
-
+            {register &&
+                <ProviderRegister isOpen={register} onClose={ModalOnClose} />
+            }
         </main>
     );
 }

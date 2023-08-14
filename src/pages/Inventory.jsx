@@ -3,7 +3,6 @@ import AppContext from '../context/AppContext';
 import InventoryView from '../containers/InventoryView';
 import InventoryShifts from '../containers/InventoryShifts';
 import InventoryReturned from '../containers/InventoryReturned';
-import SaleTable from '../containers/SaleTable';
 import InventoryUnSold from '../containers/InventoryUnSold';
 
 
@@ -13,7 +12,6 @@ const Inventory = () => {
     const [fabricados, setFabricados] = useState(false);
     const [cambiados, setCambiados] = useState(false);
     const [regresados, setRegresados] = useState(false);
-
 
     const handleSelectChange = (event) => {
         const valorSeleccionado = event.target.value;

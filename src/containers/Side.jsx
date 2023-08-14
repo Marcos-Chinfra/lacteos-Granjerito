@@ -55,12 +55,6 @@ const Side = () => {
                         >
                             <Link to="/staff">Empleados</Link>
                         </li>
-                        <li 
-                            className='border-b border-liner-color mt-1'
-                            onClick={()=> {setBurgerMenu(!burgerMenu)}}
-                        >
-                            <Link to="/production">Producción</Link>
-                        </li>
                     </ul>
                 </article>}
             </section>

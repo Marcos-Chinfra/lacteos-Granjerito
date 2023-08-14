@@ -1,10 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react';
 import axios from 'axios';
 import AppContext from '../context/AppContext'
+import StaffRegister from '../components/modalsComponents/StaffRegister';
 
 const Staff = () => {
     const {API, getToken} = useContext(AppContext);
     const [ getStaff, setGetStaff] = useState(null);
+    const [register, setRegister] = useState(false)
 
     const apiKey = import.meta.env.VITE_API_KEY;
     const headers = {
@@ -16,7 +18,15 @@ const Staff = () => {
         axios.get(`${API}/staff`, { headers })
             .then((response) => {setGetStaff(response.data)})
             .catch((err)=>console.error(err))
-    },[])
+    },[register]);
+
+    const ModalIsOpen = () => {
+        setRegister(true)
+    }
+
+    const ModalOnClose = () => {
+        setRegister(false)
+    }
 
     return (
         <main className='w-screen h-4/5 flex p-10 items-start'>
@@ -44,13 +54,16 @@ const Staff = () => {
                     }
                 </tbody>
             </table>
-            <button   
+            <button
+                onClick={ModalIsOpen}
                 className='flex items-center justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
                 >
                     Registrar
             </button>
             </section>
-
+            {register &&
+                <StaffRegister isOpen={register} onClose={ModalOnClose}/>
+            }
         </main>
     );
 }
