@@ -109,7 +109,7 @@ const Step1 = ({ handleNextStep, API, setPostId }) => {
 
     return (
         <>
-        <form className='w-4/5 max-w-lg max-h-form bg-white flex flex-col p-5 shadow' ref={form} onSubmit={handleSubmit}>
+        <form className='w-4/5 max-w-lg max-h-form bg-white flex flex-col p-5 shadow relative' ref={form} onSubmit={handleSubmit}>
 
             <label
                 htmlFor="mame"

@@ -83,8 +83,8 @@ const ProductsList = () => {
 
 
     return (
-        <div className='h-full w-full lg:w-4/5 flex p-10 overflow-y-auto flex-col '>
-            <section className='flex w-full h-4  items-center relative'>
+        <div className='h-full w-full lg:w-4/5 flex p-10 overflow-y-auto flex-col relative'>
+            <section className='flex w-full h-4  items-center '>
                 <label className='mr-2' htmlFor="opciones">Categorías:</label>
                 <select id="opciones" name="opciones" onChange={handleSelectChange}>
                     <option value="All">Todos</option>
@@ -97,10 +97,10 @@ const ProductsList = () => {
                 </select>
                 <button
                     onClick={ModalIsOpen}
-                    className='flex items-center absolute top-0 right-0 justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
+                    className='flex items-center absolute top-5 right-4 sm:top-10 sm:right-10 lg:right-14 justify-center text-center border rounded-lg bg-side px-2 py-3 max-w-button text-Magnolia hover:bg-Magnolia hover:text-side hover:border-side'
                 >
                     Registrar
-            </button>
+                </button>
             </section>
             <h1 className='font-bold text-xl text-gray-600 my-3'>Productos</h1>
             <main className='w-full flex flex-wrap'>

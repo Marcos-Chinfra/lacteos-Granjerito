@@ -1,15 +1,26 @@
-import React from 'react';
-import {SyncLoader}  from "react-spinners";
+import React, {useContext } from 'react';
+import { Link } from 'react-router-dom'
+import AppContext from '../context/AppContext';
 
 const ProductMenuHeader = ({ children, getProducts, handleShiftOutput, handleReturn, handleUnsold, cambiados, regresados, fabricados }) => {
+
+    const { SyncLoader } = useContext(AppContext)
+
     return (
         <>
-            <header className='bg-Magnolia w-full px-2 sm:px-4 py-2 rounded-md shadow flex flex-col relative'>
+            <header className='bg-Magnolia w-full px-2 sm:px-4 py-3 rounded-md shadow flex flex-col relative'>
+                <Link 
+                    to='/products'
+                    type='button' 
+                    className='absolute top-0 left-0 hover:scale-110' 
+                >
+                    <i className="fa-solid fa-arrow-left text-xl lg:text-2xl text-side hover:text-liner-color "></i>
+                </Link>
                 <section className='w-full flex gap-2 mb-10 items-center '>
                     <main className={`w-3/5 p-2 ${getProducts ? '' : 'flex justify-center items-center'}`}>
                     {getProducts
                         ?
-                        <>
+                        <section>
                             <h1 className='text-xl sm:text-2xl font-medium text-gray-700'>{`${getProducts.name}`}</h1>
                             <article className='flex flex-col'>
                                 <p className='text-liner-color  hidden sm:inline-block'>
@@ -41,7 +52,7 @@ const ProductMenuHeader = ({ children, getProducts, handleShiftOutput, handleRet
                                     {`${getProducts.description}`}
                                 </span>
                             </article>
-                        </>
+                        </section>
                         :
                         <SyncLoader color='#11aaff'/>
                     }
@@ -80,11 +91,7 @@ const ProductMenuHeader = ({ children, getProducts, handleShiftOutput, handleRet
                     </button>
                 </div>                
             </header>
-
-
-            <main className='w-full overflow-x-auto'>
-                {children}
-            </main>
+            {children}
         </>
     );
 }

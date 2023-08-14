@@ -3,7 +3,8 @@ import React from 'react';
 const ReturnedTable = ({getReturned}) => {
 
     return (
-        <table className="w-full border border-gray-200 shadow rounded" >
+        <main className='w-full overflow-x-auto'>
+        <table className="w-full border border-gray-200 shadow rounded overflow-x-auto" >
         <thead>
             <tr>
                 <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Producto</th>
@@ -38,7 +39,8 @@ const ReturnedTable = ({getReturned}) => {
                 ))
             }
         </tbody>
-    </table>
+        </table>
+        </main>
     );
 }
 

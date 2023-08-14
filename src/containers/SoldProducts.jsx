@@ -94,7 +94,7 @@ const SoldProducts = ({ handlePrevStep, API, Id }) => {
 
 
     return (
-        <section className='flex flex-col w-full max-w-3xl pt-16 sm:mt-0 '>
+        <section className='flex flex-col w-full relative max-w-3xl pt-16 sm:mt-0 '>
             <button 
                 type='button' 
                 className='absolute top-3 left-5 hover:scale-110' 

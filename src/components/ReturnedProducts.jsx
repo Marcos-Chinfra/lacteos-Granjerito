@@ -94,11 +94,10 @@ const ReturnedProducts = ({ handlePrevStep, handleNextStep, API, Id  }) => {
                 amount: ''
             })
         }
-        console.log(record)
     };
 
     return (
-        <section className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 ">
+        <section className="mx-auto relative max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 ">
             <button 
                 type='button' 
                 className='absolute top-3 left-5 hover:scale-110' 

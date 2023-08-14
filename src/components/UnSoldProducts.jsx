@@ -97,7 +97,7 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
     }
 
     return (
-        <section className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 ">
+        <section className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 relative">
             <section className="mx-auto max-w-lg">
                 <h1 className="text-center text-2xl font-bold text-strong-blue sm:text-3xl">
                     Regresos
@@ -157,7 +157,7 @@ const UnSoldProducts = ({ handleNextStep, API, Id }) => {
                     </div>
                 </form>
             </section>
-            <Link to="/sales" className='bottom-4 left-5 lg:bottom-10 lg:left-16 absolute bg-side py-2 px-4 rounded text-button'>
+            <Link to="/sales" className='bottom-0 left-5 lg:bottom-10 lg:left-16 absolute bg-side py-2 px-4 rounded text-button'>
             Cancelar
         </Link>
         </section> 

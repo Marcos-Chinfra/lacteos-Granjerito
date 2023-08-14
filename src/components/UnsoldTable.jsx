@@ -3,7 +3,7 @@ import React  from 'react';
 const UnsoldTable = ({getUnSold}) => {
 
     return (
-            <table className="w-full border border-gray-200 shadow rounded" >
+            <table className="w-full border border-gray-200 shadow rounded overflow-x-auto" >
                 <thead>
                     <tr>
                         <th className="px-1 py-1 text-left text-strong-blue border-b text-sm">Producto</th>

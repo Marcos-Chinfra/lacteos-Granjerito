@@ -18,6 +18,7 @@ const ProductsRegister = ({ isOpen, onClose }) => {
     const [errorType, setErrorType] = useState(false);
     const [errorWeight, setErrorWeight] = useState(false);
     const [errorUnit, setErrorUnit] = useState(false);
+    const [fileName, setFileName ] = useState(null)
     const [inputData, setInputData] = useState({
         product: '',
         price: '',
@@ -143,7 +144,9 @@ const ProductsRegister = ({ isOpen, onClose }) => {
         }
     }
 
-    
+    const handleFile = (e) => {
+        setFileName(e.target.files[0].name)
+    }
 
     return (
         <Modal 
@@ -307,20 +310,34 @@ const ProductsRegister = ({ isOpen, onClose }) => {
                     </label>                    
                 </section>
 
-                <label
-                    htmlFor="img"
-                    className={`flex flex-col w-4/5 mx-auto bg-gray-50 p-1 border border-gray-200 items-center text-sm`}
-                >
-                    Imagen
+                <section className='text-sm'>
+                    <h3>Imagen del producto</h3>
                     <input
                         type="file"
                         id="img"
                         name='img'
                         placeholder='imagen'
-                        className=""
+                        className="hidden"
+                        onChange={handleFile}
                     />
+                    <label
+                        htmlFor="img"
+                        className="flex flex-1"
+                    >
+                        <span className='px-3 py-2 bg-white flex-1 border rounded-l border-gray-200'>
+                                    <span className='whitespace-nowrap overflow-hidden overflow-ellipsis w-44 sm:w-56 block'>
+                                        { fileName ?  `${fileName}` : 'Ningún elemento seleccionado' }
+                                    </span>
 
-                </label>
+                        </span>
+                        <span className='px-3 py-2 bg-orange-button whitespace-nowrap rounded-r hover:bg-liner-color text-return cursor-pointer'>
+                            <span className='hidden sm:block' >Selecciona un archivo</span>
+                            <i className="fa-solid fa-file-arrow-up sm:hidden px-4"></i>
+                        </span>
+                    </label>
+                </section>
+
+
 
                 <section className='flex justify-around'>
                     <button
