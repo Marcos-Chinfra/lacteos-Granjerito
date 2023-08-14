@@ -1,3 +1,8 @@
 [build]
     publish = "dist"
     commanf = "npm run build"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
