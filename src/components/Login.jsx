@@ -102,7 +102,7 @@ const Login = () => {
 
 
     return (
-        <div className="mx-auto w-4/6 max-w-login min-w-log px-4 py-8 lg:py-16 sm:px-6 lg:px-8 lg:mt-10 ">
+        <div className="mx-auto w-4/6 max-w-login min-w-log px-4 lg:py-16 sm:px-6 lg:px-8 lg:mt-10 ">
             <div className="mx-auto max-w-xl">
                 <h1 className="text-center text-2xl font-bold text-created sm:text-3xl">
                     Empecemos!!
@@ -152,7 +152,7 @@ const Login = () => {
                                 onClick={() => setViewPassword(!viewPassword)}
                                 className="absolute inset-y-0 end-0 grid place-content-center px-4"
                             >
-                                {viewPassword ? <i className="fa-regular fa-eye text-orange-button"></i> : <i class="fa-regular fa-eye-slash text-orange-button"></i>}    
+                                {viewPassword ? <i className="fa-regular fa-eye text-orange-button"></i> : <i className="fa-regular fa-eye-slash text-orange-button"></i>}    
                             </button>
                         </div>
                     </div>

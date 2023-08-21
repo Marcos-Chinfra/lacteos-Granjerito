@@ -7,8 +7,9 @@ const Home = () => {
             <main className='p-5 w-screen h-5/6 flex flex-col justify-center lg:flex-row '>
                 <article className='flex flex-col mx-auto justify-center w-full lg:w-3/5 max-w-loginLogo'>
                     <figure className='w-36 lg:w-52 mx-auto'>
-                        <img src="../../public/img/logo.png" alt="Logo" />
+                        <img src="/img/logo.png" alt="Logo" />
                     </figure>
+
                     <div className='text-center mx-auto'>
                         <h1 className='text-3xl lg:text-4xl font-bold text-gray-600'>
                             Lácteos Granjerito
