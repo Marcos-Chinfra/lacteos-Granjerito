@@ -127,8 +127,6 @@ const InventoryShifts = () => {
         }
     }
 
-    console.log(sortDirection)
-
     return (
         <main className='w-full flex flex-col md:flex-row mt-4'>
             <section className='w-full md:w-1/2 md:px-4 '>

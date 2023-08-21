@@ -55,15 +55,12 @@ const Step1 = ({ handleNextStep, API, setPostId }) => {
             })
             .catch((error) => {
                 if (error.response) {
-                    // Si la respuesta del servidor contiene datos, puedes acceder a ellos con error.response.data.
                     console.log("Error response data:", error.response.data);
                     errorAlert('El producto no se puedo guardar');
                 } else if (error.request) {
-                    // Si la solicitud se hizo pero no se recibió respuesta (por ejemplo, error de red), puedes acceder a ello con error.request.
                     console.log("Error request:", error.request);
                     errorAlert('El producto no se puedo guardar');
                 } else {
-                    // Si ocurrió un error durante la configuración de la solicitud, puedes acceder a él con error.message.
                     console.log("Error message:", error.message);
                     errorAlert('El producto no se puedo guardar');
                 }
